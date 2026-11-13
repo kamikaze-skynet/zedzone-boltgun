@@ -41,6 +41,7 @@ namespace Boltgun
 
             bolt.State = BoltState.Lodged;
             if (!bolt.Armed(hit.point)) { PLog.Debug("Hit before the fuse armed: kinetic only"); return; }
+            if (bolt.Dud) { PLog.Debug("Dud: the fuse failed, kinetic only"); return; }
             Detonation.Queue(b, hit.point, target, part, Settings.FuseDelay.Value);
         }
 
@@ -51,8 +52,25 @@ namespace Boltgun
             if (bolt.State == BoltState.Lodged) { bolt.State = BoltState.Spent; return; }
             if (!consumed || bolt.State != BoltState.Flying) return;
             bolt.State = BoltState.Spent;
-            if (!Settings.DetonateOnSurfaces.Value || !bolt.Armed(hit.point)) return;
+            if (!Settings.DetonateOnSurfaces.Value || !bolt.Armed(hit.point) || bolt.Dud) return;
+            if (Glancing(b, hit)) { PLog.Debug("Glancing hit: no detonation"); return; }
             Detonation.Queue(b, hit.point, null, null, 0f);
+        }
+
+        // The fuse needs a solid strike: at a shallow angle the bolt skips off without going off.
+        static bool Glancing(BasicBullet b, RaycastHit2D hit)
+        {
+            float limit = Settings.GlanceAngle.Value;
+            if (limit >= 89.9f) return false;
+            try
+            {
+                Vector2 n = hit.normal;
+                if (n.sqrMagnitude < 0.01f) return false;
+                Vector3 r = b.transform.right;
+                float angle = Vector2.Angle(-new Vector2(r.x, r.y), n);   // 0 = straight on
+                return angle > limit;
+            }
+            catch { return false; }
         }
     }
 }

@@ -68,9 +68,26 @@ namespace Boltgun
             float damage = Settings.InternalDamage.Value;
             if (shooterAlive) damage *= BasicCharacterController.GetEnemyDamageFloat(c.Shooter);   // same scaling as the round's own hit
             var part = Flight.Alive(c.Part) ? c.Part : null;
-            c.Target.OnDirectedHit(damage, new Vector2(c.Point.x, c.Point.y), c.Direction * (c.Force * 0.5f), part,
+            var at = new Vector2(c.Point.x, c.Point.y);
+            c.Target.OnDirectedHit(damage, at, c.Direction * (c.Force * Settings.InternalForce.Value), part,
                 1f, true, true, true, true, Settings.ArmorPenetration.Value);
             PLog.Debug($"Charge: {damage:0} internal damage to {Name(c.Target)}");
+            Gore(c, damage, at);
+        }
+
+        // Zombies have real dismemberment in the game: hand it the charge so limbs come off.
+        static void Gore(Charge c, float damage, Vector2 at)
+        {
+            if (!Settings.Gore.Value || !Flight.Alive(c.Target)) return;
+            ZombieController z = null;
+            try { z = c.Target.TryCast<ZombieController>(); } catch { }
+            if (z == null) return;
+            try
+            {
+                z.OnExplosionDismember(damage, at, c.Direction * Settings.GoreForce.Value);
+                PLog.Debug($"Gore: blew {Name(c.Target)} apart");
+            }
+            catch (Exception e) { PLog.Debug("Dismemberment failed: " + e.Message); }
         }
 
         static void Blast(Charge c)

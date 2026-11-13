@@ -25,6 +25,10 @@ The guns spawn rarely in rooms and can be crafted.
    kinetic only. `FuseDelay` (0.04 s) later the payload goes off inside the body
    part it hit for `InternalDamage` (1500), and a small blast (`BlastDamage` 250, `BlastRadius` 1.2 m)
    goes off at that spot. Bolts that hit walls, vehicles or the ground go off on contact (blast only).
+5. **Lore touches.** The motor leaves a flame and smoke trail (`[Visuals]`). The internal charge hands
+   zombies to the game's own dismemberment so limbs come off (`[Gore]`). `DudChance` (3%) of fuses fail,
+   and bolts that strike a surface shallower than `GlanceAngle` (75 degrees from straight on) skip off
+   without detonating. Recoil is heavier than a normal rifle, more so on the pistol.
 
 Every number is in `BepInEx\config\girthy_mods.zedzone.boltgun.cfg`. `WeaponModGuids` lists the
 weapons that fire rocket bolts. Add another weapon's modGuid there to give it the same rounds.
@@ -57,7 +61,8 @@ python tools/build_items.py      # only after changing art, names or stats
 ## How the plugin works (for modders)
 
 Code: `Settings` (config), `Weapons` (which item ids fire bolts), `Flight` (launch + rocket ramp),
-`Impact` (hit hooks), `Detonation` (fuse, internal damage, blast), `Patches` (Harmony wiring).
+`Impact` (hit hooks, duds, glancing hits), `Detonation` (fuse, internal damage, gore, blast), `Trail` (rocket exhaust),
+`Patches` (Harmony wiring).
 
 
 - `BasicBullet.Init` (virtual, called by the weapon after it sets the round's fields): tags rounds whose
@@ -69,3 +74,6 @@ Code: `Settings` (config), `Weapons` (which item ids fire bolts), `Flight` (laun
   so it is raised for the hit only. Afterwards the counter is filled so `BulletPenetrate` spawns no clone.
 - Detonation: `OnDirectedHit` on the struck body part, plus an instance of the game's
   `FX/ExplosionEffect_40mmGrenade` with `BasicExplosion.ConfigurePayload(damage, radius)`.
+- Gore: `ZombieController.OnExplosionDismember(damage, point, force)` after the internal hit.
+- Trail: two free-standing `TrailRenderer` objects (Sprites/Default) that follow the bolt in `LateUpdate`
+  and fade out after it stops, so nothing is left attached to a pooled or destroyed bullet.

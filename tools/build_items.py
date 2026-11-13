@@ -10,11 +10,18 @@ CONTENT = os.path.join(REPO, "workshop", "content")
 
 PACK = "Boltgun"
 NAMES = {
-    "rifle":      ("Boltgun", "A massive .75 rifle forged in an age that worshipped war. Every round is a small rocket: a powder charge throws it out of the barrel, a motor drives it to 975 m/s, a hardened tip punches through armour and the charge inside detonates within the target."),
-    "pistol":     ("Bolt Pistol", "A brutal .75 sidearm built for hands larger than yours. Fires the same rocket-propelled, armour-piercing explosive bolts as the Boltgun. The recoil is a sermon of its own."),
-    "shell75":    (".75 Bolt", "Self-propelled .75 explosive round. Powder launch, rocket boost to 975 m/s, hardened armour-piercing tip and a mass-reactive charge that goes off inside whatever it hits."),
-    "rifle_mag":  ("Boltgun Magazine (30)", "Box magazine holding 30 .75 bolts."),
-    "pistol_mag": ("Bolt Pistol Magazine (10)", "Box magazine holding 10 .75 bolts."),
+    "rifle":      ("Boltgun", "A .75 calibre war-rifle, hand-forged and rite-blessed in an age that worshipped war, and far too heavy for an ordinary soldier. "
+                   "It does not fire bullets. Each bolt is a small rocket: a powder charge throws it from the barrel, a solid-fuel motor lights a heartbeat later "
+                   "and drives it to 975 m/s, a hardened tip punches through plate, and a mass-reactive fuse waits until the bolt is buried in its target before the charge inside goes off. "
+                   "The thunder of its firing is said to be a prayer, and every kill an answered one."),
+    "pistol":     ("Bolt Pistol", "A brutal .75 sidearm built for hands larger than yours, carried by officers and zealots as both weapon and badge of office. "
+                   "It fires the same rocket-propelled, armour-piercing explosive bolts as the Boltgun, in a frame barely able to contain them. "
+                   "The recoil is a sermon of its own."),
+    "shell75":    (".75 Bolt", "Self-propelled .75 explosive round. Propellant base, solid-fuel rocket motor, hardened armour-piercing tip and a mass-reactive "
+                   "fuse that only arms after a short flight and detonates the charge once the bolt has buried itself in something dense. "
+                   "Not every bolt is perfect: a few fuses fail, and a bolt that strikes at too shallow an angle skips off without going off."),
+    "rifle_mag":  ("Boltgun Magazine (30)", "Curved box magazine holding 30 .75 bolts. Its spring is stiff enough to take a finger off, and the rounds inside are prayed over before loading."),
+    "pistol_mag": ("Bolt Pistol Magazine (10)", "Box magazine holding 10 .75 bolts. Heavy for its size: each round is a rocket in its own right."),
 }
 
 # Fixed ids. Never change a guid after release: saves and other mods refer to it.
@@ -74,7 +81,7 @@ def rifle():
         "weaponType": 2, "weaponSlotSize": 1, "gunActionType": 0, "singleHand": False,
         "moveSpeedFloat": 0.85, "damage": 2000.0, "fireRange": 80.0, "noiseRange": 70.0,
         "bulletForce": 1400.0, "bulletSpeed": 300.0, "fireAngle": 1.2, "bulletNumber": 1,
-        "fireInterval": 0.16, "recoilIntensity": 0.7, "reloadTime": 3.2,
+        "fireInterval": 0.16, "recoilIntensity": 0.95, "reloadTime": 3.2,
         "defaultMagazineId": RID["rifle_mag"], "magazineSize": 30,
         "weaponHandHeightOffset": -0.2847541570663452, "weaponHandOffsetRange": 0.3921833336353302,
         "leftHandOffsetRange": 0.4398137927055359, "leftHandHeightOffset": -0.0033399462699890138,
@@ -94,7 +101,7 @@ def pistol():
         "weaponType": 1, "weaponSlotSize": 0, "gunActionType": 1, "singleHand": True,
         "moveSpeedFloat": 1.0, "damage": 2000.0, "fireRange": 45.0, "noiseRange": 60.0,
         "bulletForce": 1400.0, "bulletSpeed": 300.0, "fireAngle": 2.5, "bulletNumber": 1,
-        "fireInterval": 0.35, "recoilIntensity": 1.3, "reloadTime": 2.6,
+        "fireInterval": 0.35, "recoilIntensity": 1.7, "reloadTime": 2.6,
         "defaultMagazineId": RID["pistol_mag"], "magazineSize": 10,
         "weaponHandHeightOffset": 0.1802505999803543, "weaponHandOffsetRange": 0.7120091915130615,
         "leftHandOffsetRange": 0.20000000298023225, "leftHandHeightOffset": 0.029999999329447748,

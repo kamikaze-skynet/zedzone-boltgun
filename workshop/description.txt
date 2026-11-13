@@ -16,6 +16,15 @@ A .75 rocket-bolt rifle and pistol for ZED ZONE.
 [*] A split second later the charge detonates inside the target, followed by a small blast
 [/list]
 
+[b]Lore touches[/b]
+[list]
+[*] The rocket motor leaves a flame and a smoke trail behind every bolt
+[*] The internal charge tears limbs off zombies using the game's own dismemberment
+[*] Not every fuse is perfect: about 3 in 100 bolts are duds that only do the kinetic hit
+[*] Bolts that strike a wall or the ground at a shallow angle glance off without going off
+[*] Heavy recoil, worst on the one-handed Bolt Pistol
+[/list]
+
 Every number (speeds, damage, fuse delay, blast size) can be changed in BepInEx\config\girthy_mods.zedzone.boltgun.cfg.
 
 Needs BepInEx (IL2CPP) with the ZED ZONE mod loader. Log: BepInEx\Boltgun.log

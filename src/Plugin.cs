@@ -11,7 +11,7 @@ namespace Boltgun
     public class Plugin : BasePlugin
     {
         public const string Guid = "girthy_mods.zedzone.boltgun";
-        public const string Version = "1.0.0";
+        public const string Version = "1.1.0";
 
         public override void Load()
         {
@@ -50,6 +50,12 @@ namespace Boltgun
         {
             try { Detonation.Tick(); }
             catch (Exception e) { PLog.Error("Fuse update failed", e); Detonation.Clear(); }
+        }
+
+        void LateUpdate()
+        {
+            try { Flight.FollowTrails(); }
+            catch (Exception e) { PLog.Error("Trail update failed", e); }
         }
     }
 }

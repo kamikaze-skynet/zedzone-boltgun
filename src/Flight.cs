@@ -14,6 +14,8 @@ namespace Boltgun
         internal Vector3 Muzzle;
         internal float Jitter = 1f;        // the game's own per-shot speed jitter, kept on top of ours
         internal BoltState State = BoltState.Flying;
+        internal Exhaust Exhaust;           // rocket trail, lit when the motor ignites
+        internal bool Dud;                  // the fuse failed: kinetic hit only
         internal bool Armed(Vector2 at) => ((Vector2)Muzzle - at).sqrMagnitude >= Settings.ArmingDistance.Value * Settings.ArmingDistance.Value;
     }
 
@@ -26,7 +28,11 @@ namespace Boltgun
         static readonly List<IntPtr> _drop = new List<IntPtr>();
 
         internal static int Count => _bolts.Count;
-        internal static void Clear() => _bolts.Clear();
+        internal static void Clear()
+        {
+            foreach (var kv in _bolts) kv.Value.Exhaust?.Release();
+            _bolts.Clear();
+        }
 
         internal static Bolt Get(BasicBullet b)
         {
@@ -46,7 +52,7 @@ namespace Boltgun
         {
             if (b == null) return;
             // A new round can reuse a destroyed one's address: always start clean.
-            _bolts.Remove(b.Pointer);
+            if (_bolts.TryGetValue(b.Pointer, out var old)) { old.Exhaust?.Release(); _bolts.Remove(b.Pointer); }
             if (!Settings.Enabled.Value) return;
 
             int id = Weapons.ItemIdOf(b);
@@ -58,6 +64,7 @@ namespace Boltgun
             var state = new Bolt { Bullet = b, FiredAt = Time.time };
             try { state.Muzzle = b.startPos; if (state.Muzzle == Vector3.zero) state.Muzzle = b.transform.position; } catch { }
             if (speedBeforeInit > 0.01f) state.Jitter = Mathf.Clamp(b.bulletSpeed / speedBeforeInit, 0.5f, 1.5f);
+            if (Settings.DudChance.Value > 0f && UnityEngine.Random.value < Settings.DudChance.Value) state.Dud = true;
 
             b.bulletSpeed = SpeedAt(0f) * state.Jitter;
             if (Settings.KineticDamage.Value > 0f) b.bulletDamage = Settings.KineticDamage.Value;
@@ -85,11 +92,28 @@ namespace Boltgun
             {
                 var s = kv.Value;
                 if (s.State == BoltState.Spent || !Alive(s.Bullet)) { _drop.Add(kv.Key); continue; }
-                if (s.State != BoltState.Flying) continue;
-                try { s.Bullet.bulletSpeed = SpeedAt(now - s.FiredAt) * s.Jitter; }
+                if (s.State != BoltState.Flying) { s.Exhaust?.Release(); continue; }
+                try
+                {
+                    float t = now - s.FiredAt;
+                    s.Bullet.bulletSpeed = SpeedAt(t) * s.Jitter;
+                    if (s.Exhaust == null && t >= Settings.IgnitionDelay.Value) s.Exhaust = Exhaust.Light(s.Bullet) ?? Exhaust.None;
+                }
                 catch { _drop.Add(kv.Key); }
             }
-            foreach (var k in _drop) _bolts.Remove(k);
+            foreach (var k in _drop) { _bolts[k].Exhaust?.Release(); _bolts.Remove(k); }
+        }
+
+        // Every rendered frame: keep the exhaust on the bolt.
+        internal static void FollowTrails()
+        {
+            if (_bolts.Count == 0) return;
+            foreach (var kv in _bolts)
+            {
+                var s = kv.Value;
+                if (s.Exhaust == null || s.State != BoltState.Flying) continue;
+                try { if (Alive(s.Bullet)) s.Exhaust.Follow(s.Bullet.transform.position); } catch { }
+            }
         }
     }
 }

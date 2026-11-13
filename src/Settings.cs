@@ -15,6 +15,11 @@ namespace Boltgun
         internal static ConfigEntry<float> ArmingDistance, FuseDelay, InternalDamage, BlastDamage, BlastRadius, BlastVisualScale;
         internal static ConfigEntry<bool> DetonateOnSurfaces;
         internal static ConfigEntry<string> BlastPrefab;
+        internal static ConfigEntry<float> DudChance, GlanceAngle;
+        internal static ConfigEntry<bool> Gore;
+        internal static ConfigEntry<float> InternalForce, GoreForce;
+        internal static ConfigEntry<bool> Trail;
+        internal static ConfigEntry<float> TrailWidth, SmokeTime;
         internal static ConfigEntry<bool> VerboseLog;
 
         static AcceptableValueRange<float> R(float a, float b) => new AcceptableValueRange<float>(a, b);
@@ -47,12 +52,23 @@ namespace Boltgun
             DetonateOnSurfaces = c.Bind("Detonation", "DetonateOnSurfaces", true, "Bolts that hit walls, vehicles or the ground also go off (blast only).");
             BlastPrefab = c.Bind("Detonation", "BlastPrefab", "FX/ExplosionEffect_40mmGrenade", "Game resource used for the blast.");
 
+            DudChance = c.Bind("Detonation", "DudChance", 0.03f, new ConfigDescription("Chance (0-1) that a bolt's fuse fails and it only does the kinetic hit.", R(0, 1)));
+            GlanceAngle = c.Bind("Detonation", "GlanceAngle", 75f, new ConfigDescription("Bolts that strike a wall or the ground at a shallower angle than this (degrees from straight on) glance off without detonating. 90 = never.", R(0, 90)));
+
+            InternalForce = c.Bind("Gore", "InternalForce", 2.5f, new ConfigDescription("Push of the internal charge, as a multiple of the bolt's force. Big pushes make the game's own gore (blown-off limbs, split corpses) more likely.", R(0, 20)));
+            Gore = c.Bind("Gore", "BlowApartZombies", true, "The internal charge tears limbs off zombies through the game's own dismemberment.");
+            GoreForce = c.Bind("Gore", "GoreForce", 3000f, new ConfigDescription("Force handed to the zombie dismemberment when the charge goes off.", R(0, 50000)));
+
+            Trail = c.Bind("Visuals", "RocketTrail", true, "Show the rocket motor's flame and smoke trail behind each bolt.");
+            TrailWidth = c.Bind("Visuals", "TrailWidth", 0.06f, new ConfigDescription("Width (m) of the rocket trail.", R(0.005f, 1)));
+            SmokeTime = c.Bind("Visuals", "SmokeTime", 0.35f, new ConfigDescription("Seconds the smoke trail lingers.", R(0.02f, 5)));
+
             VerboseLog = c.Bind("Debug", "VerboseLog", false, "Log every bolt fired, hit and detonated to BepInEx\\Boltgun.log.");
         }
 
         internal static string Describe() =>
             $"Config: Enabled={Enabled.Value} Flight {LaunchSpeed.Value}->{FinalSpeed.Value} m/s (ignite {IgnitionDelay.Value}s, burn {BurnTime.Value}s) " +
             $"Impact {KineticDamage.Value} AP{ArmorPenetration.Value} | Arm {ArmingDistance.Value}m Fuse {FuseDelay.Value}s Internal {InternalDamage.Value} " +
-            $"Blast {BlastDamage.Value}/{BlastRadius.Value}m";
+            $"Blast {BlastDamage.Value}/{BlastRadius.Value}m Dud {DudChance.Value} Glance {GlanceAngle.Value} Gore {Gore.Value} Trail {Trail.Value}";
     }
 }
