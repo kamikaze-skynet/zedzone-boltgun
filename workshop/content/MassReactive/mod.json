@@ -1,0 +1,7 @@
+{
+    "name": "Mass-Reactive Rounds",
+    "version": "0.1.0",
+    "author": "girthy_mods",
+    "description": "Makes .75 bolt weapons fire rocket-boosted, armour-piercing explosive rounds that detonate inside the target.",
+    "enabled": true
+}
