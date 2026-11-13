@@ -6,3 +6,5 @@ The sprites in `items/` are **placeholders**, taken from the 爆弹枪 / 爆弹�
 To replace a sprite, keep the same canvas size, or update that item's `ppu`, `spriteRegions` and
 hand/muzzle offsets in `tools/build_items.py`. Then run `python tools/build_items.py`.
 `tools/legacy/make_art.py` has the first original (rougher) set if you want a starting point.
+
+The emblems on the rifle and pistol panels were painted out (1.3.0) so no third-party insignia ships with the mod.

@@ -7,6 +7,7 @@
   shrapnel damage and knockdowns stay with the shooter, as before.
 - Rocket sound: a hiss when the motor lights, borrowed from the game (a firework's launch sound, else the ignite sound).
   `[Sound] RocketSoundVolume` and `RocketSoundClip` pick the volume and the sound.
+- Painted the emblems off the rifle and pistol sprites (and their previews), ready for a public release.
 - Girthy Mods / Hefty installs: the item packs ship in `items\` next to Boltgun.dll and the plugin loads any the game
   didn't (ModLoader.TryLoadZedmod after ModLoader.LoadAll). Workshop installs are unchanged.
 
