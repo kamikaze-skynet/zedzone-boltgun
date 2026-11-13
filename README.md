@@ -6,7 +6,7 @@ explosive round. The item art is a placeholder until we have our own (see `ART.m
 
 | Item | Notes |
 |---|---|
-| Boltgun | full auto, 30-round magazine, 80 m range |
+| Boltgun | full auto (600 rounds a minute), 30-round magazine, 80 m range |
 | Bolt Pistol | semi auto, one-handed, 10-round magazine |
 | .75 Bolt | ammo, stacks to 40, craftable |
 | Boltgun Magazine (30), Bolt Pistol Magazine (10) | craftable |

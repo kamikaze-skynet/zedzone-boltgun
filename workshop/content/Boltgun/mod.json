@@ -1,6 +1,6 @@
 {
     "name": "Boltgun",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "author": "girthy_mods",
     "description": "Rocket-bolt logic for the Boltgun and Bolt Pistol: powder launch, rocket boost, armour-piercing hit, then detonation inside the target, with rocket trails, gore, duds and glancing hits.",
     "enabled": true

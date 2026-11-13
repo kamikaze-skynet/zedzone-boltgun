@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.1
+- Faster fire rate: Boltgun 600 rounds a minute (was 375), Bolt Pistol 0.2 s between shots (was 0.35).
+
 ## 1.3.0
 - Multiplayer: other players' bolts now look and fly like yours (rocket boost, trail, bolt sprite, ignition flash and sound,
   the blast where they hit). The game rebuilds their shots from a network message without a weapon attached, so the
