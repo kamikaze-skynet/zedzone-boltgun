@@ -6,8 +6,8 @@ explosive round. The item art is a placeholder until we have our own (see `ART.m
 
 | Item | Notes |
 |---|---|
-| Boltgun | full auto (600 rounds a minute), 30-round magazine, 80 m range |
-| Bolt Pistol | semi auto, one-handed, 10-round magazine |
+| Boltgun | full auto (600 rounds a minute), 30-round magazine, 40 m range |
+| Bolt Pistol | semi auto, one-handed, 10-round magazine, 30 m range |
 | .75 Bolt | ammo, stacks to 40, craftable |
 | Boltgun Magazine (30), Bolt Pistol Magazine (10) | craftable |
 
@@ -30,7 +30,7 @@ The guns spawn rarely in rooms and can be crafted.
    and bolts that strike a surface shallower than `GlanceAngle` (75 degrees from straight on) skip off
    without detonating. Recoil is heavier than a normal rifle, more so on the pistol.
 6. **More lore (1.2.0).** Each round is drawn as our own bolt with a glowing motor (`BoltSprite`), the motor
-   lights with a flash and smoke puff (`IgnitionFlash`), the guns throw out spent casings, the charge throws
+   lights with a flash and smoke puff (`IgnitionFlash`), the guns throw out fat brass .75 casings (drawn by the plugin), the charge throws
    shrapnel at anyone within `ShrapnelRadius` (3 m), and a target that survives it is knocked down (`[Wounds]`).
 7. **Rocket sound (1.3.0).** A hiss when the motor lights (`[Sound]`), using a sound already in the game.
 

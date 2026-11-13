@@ -86,6 +86,12 @@ namespace Boltgun
             b.penetrateTime = 0;        // bolts stop inside what they hit
             b.m_penetrateCounter = 0;
             try { state.Body = Fx.BoltBody(b); } catch (Exception e) { PLog.Debug("Bolt sprite: " + e.Message); }
+            try
+            {
+                Vector3 r = b.transform.right; var aim = new Vector2(r.x, r.y);
+                Fx.Casing(state.Muzzle - r * Settings.EjectionPortBack.Value, aim);
+            }
+            catch (Exception e) { PLog.Debug("Casing: " + e.Message); }
             _bolts[b.Pointer] = state;
         }
 

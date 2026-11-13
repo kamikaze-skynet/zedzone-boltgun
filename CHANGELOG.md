@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.2
+- Spent casings are now our own fat brass .75 casings drawn by the plugin (the game's casing item was a .300 Magnum shell).
+  They arc out of the gun, bounce, lie for 4 s and fade. Nothing to pick up. `[Visuals] SpentCasings` etc.
+- Shorter range: Boltgun 40 m (was 80), Bolt Pistol 30 m (was 45), about one screen.
+
 ## 1.3.1
 - Faster fire rate: Boltgun 600 rounds a minute (was 375), Bolt Pistol 0.2 s between shots (was 0.35).
 

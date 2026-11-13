@@ -23,6 +23,9 @@ namespace Boltgun
         internal static ConfigEntry<bool> BoltSprite, IgnitionFlash, Knockdown;
         internal static ConfigEntry<float> BoltLength, IgnitionFlashSize, ShrapnelDamage, ShrapnelRadius, KnockdownTime;
         internal static ConfigEntry<int> ShrapnelSparks;
+        internal static ConfigEntry<bool> Casings;
+        internal static ConfigEntry<float> CasingLength, CasingLifetime, EjectionPortBack;
+        internal static ConfigEntry<int> MaxCasings;
         internal static ConfigEntry<float> RocketSoundVolume;
         internal static ConfigEntry<string> RocketSoundClip;
         internal static ConfigEntry<bool> VerboseLog;
@@ -79,6 +82,12 @@ namespace Boltgun
 
             Knockdown = c.Bind("Wounds", "Knockdown", true, "A target that survives the internal charge is knocked off its feet.");
             KnockdownTime = c.Bind("Wounds", "KnockdownTime", 1.5f, new ConfigDescription("Seconds the survivor stays down.", R(0.1f, 10)));
+
+            Casings = c.Bind("Visuals", "SpentCasings", true, "Throw a fat brass .75 casing out of the gun on every shot (visual only, nothing to pick up).");
+            CasingLength = c.Bind("Visuals", "CasingLength", 0.16f, new ConfigDescription("Length (m) the casing is drawn at.", R(0.02f, 1)));
+            CasingLifetime = c.Bind("Visuals", "CasingLifetime", 4f, new ConfigDescription("Seconds a casing lies on the ground before it fades.", R(0.5f, 60)));
+            EjectionPortBack = c.Bind("Visuals", "EjectionPortBack", 0.45f, new ConfigDescription("How far (m) behind the muzzle the casing comes out.", R(0, 2)));
+            MaxCasings = c.Bind("Visuals", "MaxCasings", 40, new ConfigDescription("Most casings on screen at once.", new AcceptableValueRange<int>(0, 500)));
 
             RocketSoundVolume = c.Bind("Sound", "RocketSoundVolume", 0.6f, new ConfigDescription("Volume of the hiss when a bolt's motor lights. 0 = silent.", R(0, 2)));
             RocketSoundClip = c.Bind("Sound", "RocketSoundClip", "", "Name of a game sound to use for the motor. Empty = a firework's launch sound, else the game's ignite sound. With VerboseLog on, the log lists sounds that might fit.");

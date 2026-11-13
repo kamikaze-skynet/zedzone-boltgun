@@ -18,10 +18,17 @@ namespace Boltgun
             internal float Born, Life, Gravity, Drag;
             internal Vector3 Scale0, Scale1;
             internal Color Col0, Col1;
+            // Spent casings: they move along the ground plane and arc through a fake height, so the
+            // effect reads right whether the camera looks from the side or from above.
+            internal bool Casing;
+            internal Vector3 Ground;
+            internal float H, Vh, Spin;
+            internal int Bounces;
         }
 
         static readonly List<Particle> _live = new List<Particle>();
-        static Sprite _bolt, _disc, _puff, _spark;
+        static Sprite _bolt, _disc, _puff, _spark, _casing;
+        static int _casings;
         static bool _failed;
 
         // Sorting taken from the last bullet we saw, so our effects draw on the same layer as rounds.
@@ -40,13 +47,14 @@ namespace Boltgun
         static bool Ready()
         {
             if (_failed) return false;
-            if (Flight.Alive(_bolt) && Flight.Alive(_disc) && Flight.Alive(_puff) && Flight.Alive(_spark)) return true;
+            if (Flight.Alive(_bolt) && Flight.Alive(_disc) && Flight.Alive(_puff) && Flight.Alive(_spark) && Flight.Alive(_casing)) return true;
             try
             {
                 _bolt = Make(BoltPixels(out int bw, out int bh), bw, bh, new Vector2(0.75f, 0.5f), bw / Settings.BoltLength.Value);
                 _disc = Make(Disc(32, 1.6f), 32, 32, new Vector2(0.5f, 0.5f), 32f);
                 _puff = Make(Disc(32, 0.8f), 32, 32, new Vector2(0.5f, 0.5f), 32f);
                 _spark = Make(SparkPixels(), 8, 2, new Vector2(0.5f, 0.5f), 32f);
+                _casing = Make(CasingPixels(), 9, 4, new Vector2(0.5f, 0.5f), 9 / Settings.CasingLength.Value);
                 return true;
             }
             catch (Exception e) { _failed = true; PLog.Error("Couldn't make the effect sprites; bolt sprite, flash and sparks are off", e); return false; }
@@ -103,6 +111,25 @@ namespace Boltgun
                 float d = Mathf.Sqrt((x - c) * (x - c) + (y - c) * (y - c)) / c;
                 float a = Mathf.Clamp01(1f - Mathf.Pow(d, power));
                 px[y * n + x] = new Color32(255, 255, 255, (byte)(a * 255));
+            }
+            return px;
+        }
+
+        // A fat brass .75 casing, side view: dark rim on the left, open mouth on the right.
+        static Color32[] CasingPixels()
+        {
+            int w = 9, h = 4;
+            var px = new Color32[w * h];
+            var rim = new Color32(120, 84, 30, 255);
+            var brass = new Color32(201, 156, 64, 255);
+            var hi = new Color32(240, 206, 120, 255);
+            var shade = new Color32(150, 108, 40, 255);
+            for (int x = 0; x < w; x++)
+            for (int y = 0; y < h; y++)
+            {
+                Color32 c = x == 0 ? rim : (y == 2 ? hi : (y == 0 ? shade : brass));
+                if (x == w - 1 && (y == 1 || y == 2)) c = new Color32(70, 52, 24, 255);   // open mouth
+                px[y * w + x] = c;
             }
             return px;
         }
@@ -186,6 +213,53 @@ namespace Boltgun
             }
         }
 
+        // Throws a spent casing out of the ejection port, up and back from the aim direction.
+        internal static void Casing(Vector3 port, Vector2 aim)
+        {
+            if (!Settings.Casings.Value || _casings >= Settings.MaxCasings.Value || !Ready()) return;
+            if (aim.sqrMagnitude < 0.01f) aim = Vector2.right;
+            aim.Normalize();
+            Vector2 side = aim.x >= 0 ? new Vector2(-aim.y, aim.x) : new Vector2(aim.y, -aim.x);   // the gun's "up" side
+            Vector2 plane = (-aim * UnityEngine.Random.Range(0.6f, 1.6f)) + side * UnityEngine.Random.Range(-0.4f, 0.4f);
+            var sr = NewRenderer("Boltgun.Casing", _casing, port, 1);
+            sr.transform.rotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f));
+            _live.Add(new Particle
+            {
+                Go = sr.gameObject, Sr = sr, Vel = new Vector3(plane.x, plane.y, 0f), Born = Time.time,
+                Life = Settings.CasingLifetime.Value, Scale0 = Vector3.one, Scale1 = Vector3.one,
+                Col0 = Color.white, Col1 = Color.white,
+                Casing = true, Ground = port, H = 0.05f, Vh = UnityEngine.Random.Range(2.2f, 3.2f),
+                Spin = UnityEngine.Random.Range(-900f, 900f),
+            });
+            _casings++;
+        }
+
+        static void TickCasing(Particle q, float t, float dt)
+        {
+            var tr = q.Go.transform;
+            if (q.Bounces < 3)
+            {
+                q.Ground += q.Vel * dt;
+                q.Vh -= 9.8f * dt;
+                q.H += q.Vh * dt;
+                if (q.H <= 0f)
+                {
+                    q.H = 0f;
+                    q.Bounces++;
+                    q.Vh = -q.Vh * 0.35f;
+                    q.Vel *= 0.45f;
+                    q.Spin *= 0.4f;
+                    if (q.Bounces >= 3) { q.Vel = Vector3.zero; q.Spin = 0f; }
+                }
+                tr.rotation = Quaternion.Euler(0, 0, tr.eulerAngles.z + q.Spin * dt);
+            }
+            tr.position = q.Ground + new Vector3(0f, q.H, 0f);
+            // Lie there, then fade over the last half second.
+            float fadeFrom = 1f - Mathf.Min(0.5f, q.Life * 0.5f) / q.Life;
+            var c = Color.white; c.a = t < fadeFrom ? 1f : 1f - (t - fadeFrom) / (1f - fadeFrom);
+            q.Sr.color = c;
+        }
+
         internal static void Tick()
         {
             if (_live.Count == 0) return;
@@ -197,7 +271,13 @@ namespace Boltgun
                 if (t >= 1f || !Flight.Alive(q.Go))
                 {
                     try { if (Flight.Alive(q.Go)) UnityEngine.Object.Destroy(q.Go); } catch { }
+                    if (q.Casing) _casings--;
                     _live.RemoveAt(i);
+                    continue;
+                }
+                if (q.Casing)
+                {
+                    try { TickCasing(q, t, dt); } catch { if (q.Casing) _casings--; _live.RemoveAt(i); }
                     continue;
                 }
                 try
@@ -217,6 +297,7 @@ namespace Boltgun
         {
             foreach (var q in _live) { try { if (Flight.Alive(q.Go)) UnityEngine.Object.Destroy(q.Go); } catch { } }
             _live.Clear();
+            _casings = 0;
         }
     }
 }
