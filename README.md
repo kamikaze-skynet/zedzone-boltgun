@@ -29,6 +29,9 @@ The guns spawn rarely in rooms and can be crafted.
    zombies to the game's own dismemberment so limbs come off (`[Gore]`). `DudChance` (3%) of fuses fail,
    and bolts that strike a surface shallower than `GlanceAngle` (75 degrees from straight on) skip off
    without detonating. Recoil is heavier than a normal rifle, more so on the pistol.
+6. **More lore (1.2.0).** Each round is drawn as our own bolt with a glowing motor (`BoltSprite`), the motor
+   lights with a flash and smoke puff (`IgnitionFlash`), the guns throw out spent casings, the charge throws
+   shrapnel at anyone within `ShrapnelRadius` (3 m), and a target that survives it is knocked down (`[Wounds]`).
 
 Every number is in `BepInEx\config\girthy_mods.zedzone.boltgun.cfg`. `WeaponModGuids` lists the
 weapons that fire rocket bolts. Add another weapon's modGuid there to give it the same rounds.
@@ -61,7 +64,7 @@ python tools/build_items.py      # only after changing art, names or stats
 ## How the plugin works (for modders)
 
 Code: `Settings` (config), `Weapons` (which item ids fire bolts), `Flight` (launch + rocket ramp),
-`Impact` (hit hooks, duds, glancing hits), `Detonation` (fuse, internal damage, gore, blast), `Trail` (rocket exhaust),
+`Impact` (hit hooks, duds, glancing hits), `Detonation` (fuse, internal damage, gore, blast), `Trail` (rocket exhaust), `Fx` (bolt sprite, ignition flash, sparks; sprites drawn in code because the game ships without Unity's image loader),
 `Patches` (Harmony wiring).
 
 

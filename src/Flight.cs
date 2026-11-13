@@ -16,6 +16,16 @@ namespace Boltgun
         internal BoltState State = BoltState.Flying;
         internal Exhaust Exhaust;           // rocket trail, lit when the motor ignites
         internal bool Dud;                  // the fuse failed: kinetic hit only
+        internal GameObject Body;           // our own bolt sprite riding on the round
+
+        // The bolt stopped (hit, out of range or gone): let the exhaust fade and remove the sprite.
+        internal void Stop()
+        {
+            Exhaust?.Release();
+            if (Exhaust == null) Exhaust = Exhaust.None;
+            try { if (Flight.Alive(Body)) UnityEngine.Object.Destroy(Body); } catch { }
+            Body = null;
+        }
         internal bool Armed(Vector2 at) => ((Vector2)Muzzle - at).sqrMagnitude >= Settings.ArmingDistance.Value * Settings.ArmingDistance.Value;
     }
 
@@ -30,7 +40,7 @@ namespace Boltgun
         internal static int Count => _bolts.Count;
         internal static void Clear()
         {
-            foreach (var kv in _bolts) kv.Value.Exhaust?.Release();
+            foreach (var kv in _bolts) kv.Value.Stop();
             _bolts.Clear();
         }
 
@@ -52,7 +62,7 @@ namespace Boltgun
         {
             if (b == null) return;
             // A new round can reuse a destroyed one's address: always start clean.
-            if (_bolts.TryGetValue(b.Pointer, out var old)) { old.Exhaust?.Release(); _bolts.Remove(b.Pointer); }
+            if (_bolts.TryGetValue(b.Pointer, out var old)) { old.Stop(); _bolts.Remove(b.Pointer); }
             if (!Settings.Enabled.Value) return;
 
             int id = Weapons.ItemIdOf(b);
@@ -71,6 +81,7 @@ namespace Boltgun
             if (Settings.MinRange.Value > 0f && b.bulletRange < Settings.MinRange.Value) b.bulletRange = Settings.MinRange.Value;
             b.penetrateTime = 0;        // bolts stop inside what they hit
             b.m_penetrateCounter = 0;
+            try { state.Body = Fx.BoltBody(b); } catch (Exception e) { PLog.Debug("Bolt sprite: " + e.Message); }
             _bolts[b.Pointer] = state;
         }
 
@@ -92,16 +103,21 @@ namespace Boltgun
             {
                 var s = kv.Value;
                 if (s.State == BoltState.Spent || !Alive(s.Bullet)) { _drop.Add(kv.Key); continue; }
-                if (s.State != BoltState.Flying) { s.Exhaust?.Release(); continue; }
+                if (s.State != BoltState.Flying) { s.Stop(); continue; }
                 try
                 {
                     float t = now - s.FiredAt;
                     s.Bullet.bulletSpeed = SpeedAt(t) * s.Jitter;
-                    if (s.Exhaust == null && t >= Settings.IgnitionDelay.Value) s.Exhaust = Exhaust.Light(s.Bullet) ?? Exhaust.None;
+                    if (s.Exhaust == null && t >= Settings.IgnitionDelay.Value)
+                    {
+                        s.Exhaust = Exhaust.Light(s.Bullet) ?? Exhaust.None;
+                        try { Vector3 r = s.Bullet.transform.right; Fx.Ignition(s.Bullet.transform.position, new Vector2(r.x, r.y)); }
+                        catch (Exception e) { PLog.Debug("Ignition flash: " + e.Message); }
+                    }
                 }
                 catch { _drop.Add(kv.Key); }
             }
-            foreach (var k in _drop) { _bolts[k].Exhaust?.Release(); _bolts.Remove(k); }
+            foreach (var k in _drop) { _bolts[k].Stop(); _bolts.Remove(k); }
         }
 
         // Every rendered frame: keep the exhaust on the bolt.
@@ -111,8 +127,15 @@ namespace Boltgun
             foreach (var kv in _bolts)
             {
                 var s = kv.Value;
-                if (s.Exhaust == null || s.State != BoltState.Flying) continue;
-                try { if (Alive(s.Bullet)) s.Exhaust.Follow(s.Bullet.transform.position); } catch { }
+                if (s.State != BoltState.Flying || !Alive(s.Bullet)) continue;
+                try
+                {
+                    var tr = s.Bullet.transform;
+                    Vector3 p = tr.position;
+                    s.Exhaust?.Follow(p);
+                    if (Alive(s.Body)) { s.Body.transform.position = p; s.Body.transform.rotation = tr.rotation; }
+                }
+                catch { }
             }
         }
     }

@@ -20,6 +20,9 @@ namespace Boltgun
         internal static ConfigEntry<float> InternalForce, GoreForce;
         internal static ConfigEntry<bool> Trail;
         internal static ConfigEntry<float> TrailWidth, SmokeTime;
+        internal static ConfigEntry<bool> BoltSprite, IgnitionFlash, Knockdown;
+        internal static ConfigEntry<float> BoltLength, IgnitionFlashSize, ShrapnelDamage, ShrapnelRadius, KnockdownTime;
+        internal static ConfigEntry<int> ShrapnelSparks;
         internal static ConfigEntry<bool> VerboseLog;
 
         static AcceptableValueRange<float> R(float a, float b) => new AcceptableValueRange<float>(a, b);
@@ -62,6 +65,18 @@ namespace Boltgun
             Trail = c.Bind("Visuals", "RocketTrail", true, "Show the rocket motor's flame and smoke trail behind each bolt.");
             TrailWidth = c.Bind("Visuals", "TrailWidth", 0.06f, new ConfigDescription("Width (m) of the rocket trail.", R(0.005f, 1)));
             SmokeTime = c.Bind("Visuals", "SmokeTime", 0.35f, new ConfigDescription("Seconds the smoke trail lingers.", R(0.02f, 5)));
+
+            BoltSprite = c.Bind("Visuals", "BoltSprite", true, "Draw our own bolt (casing, brass band, steel tip, glowing motor) on each round in flight.");
+            BoltLength = c.Bind("Visuals", "BoltLength", 0.35f, new ConfigDescription("Length (m) the bolt sprite is drawn at.", R(0.05f, 2)));
+            IgnitionFlash = c.Bind("Visuals", "IgnitionFlash", true, "A flash and a puff of smoke where the rocket motor lights, a few metres from the barrel.");
+            IgnitionFlashSize = c.Bind("Visuals", "IgnitionFlashSize", 1f, new ConfigDescription("Size of the ignition flash and puff.", R(0.1f, 5)));
+
+            ShrapnelDamage = c.Bind("Shrapnel", "ShrapnelDamage", 150f, new ConfigDescription("Damage the bolt's fragments do to others near the target (falls off with distance). 0 = off.", R(0, 5000)));
+            ShrapnelRadius = c.Bind("Shrapnel", "ShrapnelRadius", 3f, new ConfigDescription("How far (m) fragments fly.", R(0.1f, 15)));
+            ShrapnelSparks = c.Bind("Shrapnel", "ShrapnelSparks", 10, new ConfigDescription("Number of fragment sparks drawn.", new AcceptableValueRange<int>(0, 60)));
+
+            Knockdown = c.Bind("Wounds", "Knockdown", true, "A target that survives the internal charge is knocked off its feet.");
+            KnockdownTime = c.Bind("Wounds", "KnockdownTime", 1.5f, new ConfigDescription("Seconds the survivor stays down.", R(0.1f, 10)));
 
             VerboseLog = c.Bind("Debug", "VerboseLog", false, "Log every bolt fired, hit and detonated to BepInEx\\Boltgun.log.");
         }

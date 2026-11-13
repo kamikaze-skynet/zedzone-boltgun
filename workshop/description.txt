@@ -18,7 +18,11 @@ A .75 rocket-bolt rifle and pistol for ZED ZONE.
 
 [b]Lore touches[/b]
 [list]
-[*] The rocket motor leaves a flame and a smoke trail behind every bolt
+[*] Every round is drawn as a bolt with a glowing rocket motor
+[*] The motor lights with a flash and a puff of smoke a few metres from the barrel, then leaves a flame and smoke trail
+[*] Spent casings fly from the gun on every shot
+[*] The internal charge throws shrapnel at anyone standing close to the target
+[*] Anything that survives the charge is knocked off its feet
 [*] The internal charge tears limbs off zombies using the game's own dismemberment
 [*] Not every fuse is perfect: about 3 in 100 bolts are duds that only do the kinetic hit
 [*] Bolts that strike a wall or the ground at a shallow angle glance off without going off

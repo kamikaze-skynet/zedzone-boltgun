@@ -50,11 +50,14 @@ def base(key, mod_type, ppu, regions, size, rarity, weight, price, stack, craft,
         "repairRecipeItems": [{"itemId": i, "itemNumber": float(n)} for i, n in repair],
     }
 
+# Spent casing thrown out on each shot: the game's own rifle casing item (the same id other weapon mods use).
+SHELL_CASING = 1005
+
 def weapon_common():
     return {
         "feedingType": 0, "exinjectShellMode": 0, "isMechWeapon": False, "isFlareGun": False,
         "hp": 1500.0, "smokeParticleNumber": 30, "temperaturePerShot": 2.0, "ammoPlusOne": False,
-        "ammoId": RID["shell75"], "shellId": -1, "shellExinjectionForceFloat": 0.0,
+        "ammoId": RID["shell75"], "shellId": SHELL_CASING, "shellExinjectionForceFloat": 1.6,
         "liquidAmmoItemID": -1, "extraLiquidAmmoItemIDAry": [], "liquidCapacity": 0.0, "batteryEnergyPerSec": 0.0,
         "isAirPowerd": False, "airPressure_redZoneSize": 0.0, "airPressure_yellowZoneSize": 0.0,
         "airPressure_greenZoneSize": 0.0, "airPressure_chargeZoneSize": 0.0, "movingPartRange": 0.0,

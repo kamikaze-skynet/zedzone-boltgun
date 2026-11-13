@@ -53,6 +53,7 @@ namespace Boltgun
                 if (now < c.At) continue;
                 _pending.RemoveAt(i);
                 try { Inside(c); } catch (Exception e) { PLog.Error("Internal detonation failed", e); }
+                try { Shrapnel(c); } catch (Exception e) { PLog.Error("Shrapnel failed", e); }
                 try { Blast(c); } catch (Exception e) { PLog.Error("Blast failed", e); }
             }
         }
@@ -73,6 +74,55 @@ namespace Boltgun
                 1f, true, true, true, true, Settings.ArmorPenetration.Value);
             PLog.Debug($"Charge: {damage:0} internal damage to {Name(c.Target)}");
             Gore(c, damage, at);
+            Wound(c);
+        }
+
+        // Survivors of the charge are thrown off their feet.
+        static void Wound(Charge c)
+        {
+            if (!Settings.Knockdown.Value || !Flight.Alive(c.Target) || c.Target.deadFlag) return;
+            try
+            {
+                if (c.Target.CanEnterKnockdown() && c.Target.TryEnterKnockdown(BasicCharacterController.KnockdownCause.Impact, Settings.KnockdownTime.Value))
+                    PLog.Debug($"{Name(c.Target)} survived and was knocked down");
+            }
+            catch (Exception e) { PLog.Debug("Knockdown failed: " + e.Message); }
+        }
+
+        static readonly HashSet<IntPtr> _hitOnce = new HashSet<IntPtr>();
+
+        // Fragments of the bolt's casing fly out from the detonation and cut anyone close by.
+        static void Shrapnel(Charge c)
+        {
+            if (Settings.ShrapnelSparks.Value > 0) Fx.Shrapnel(c.Point, Settings.ShrapnelSparks.Value);
+            float dmg = Settings.ShrapnelDamage.Value, radius = Settings.ShrapnelRadius.Value;
+            if (c.VisualOnly || dmg <= 0f) return;
+            var at = new Vector2(c.Point.x, c.Point.y);
+            var cols = Physics2D.OverlapCircleAll(at, radius);
+            if (cols == null) return;
+            bool shooterAlive = Flight.Alive(c.Shooter);
+            _hitOnce.Clear();
+            if (Flight.Alive(c.Target)) _hitOnce.Add(c.Target.Pointer);       // the charge already did its work there
+            int n = 0;
+            foreach (var col in cols)
+            {
+                if (col == null) continue;
+                BasicCharacterController ch = null;
+                try { ch = BasicCharacterController.GetCharacterFromCollider(col); } catch { }
+                if (ch == null || !_hitOnce.Add(ch.Pointer) || ch.deadFlag) continue;
+                if (shooterAlive && (ch.Pointer == c.Shooter.Pointer || BasicCharacterController.IsSameSideForDamage(c.Shooter, ch))) continue;
+                Vector2 to = (Vector2)ch.transform.position - at;
+                float d = to.magnitude;
+                float fall = Mathf.Clamp01(1f - d / radius);
+                if (fall <= 0f) continue;
+                float hit = dmg * fall;
+                if (shooterAlive) hit *= BasicCharacterController.GetEnemyDamageFloat(c.Shooter);
+                var part = col.GetComponent<CharacterBodyPart>();
+                Vector2 dir = d > 0.01f ? to / d : c.Direction;
+                ch.OnDirectedHit(hit, (Vector2)col.bounds.ClosestPoint(c.Point), dir * (c.Force * 0.3f), part, 1f, true, true, true, true, 2);
+                n++;
+            }
+            if (n > 0) PLog.Debug($"Shrapnel hit {n} more");
         }
 
         // Zombies have real dismemberment in the game: hand it the charge so limbs come off.
