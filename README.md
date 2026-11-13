@@ -1,58 +1,63 @@
-# Mass-Reactive Rounds (ZED ZONE)
+# Boltgun (ZED ZONE)
 
-A BepInEx (IL2CPP) companion mod that changes how .75 bolt weapons behave. It doesn't add or change
-any item, sprite or sound. It only changes what happens to the round after it is fired.
+A standalone mod that adds a .75 **Boltgun** rifle, a **Bolt Pistol**, **.75 Bolt** rounds and their
+magazines, plus a BepInEx (IL2CPP) plugin that makes every bolt fly and hit like a rocket-propelled
+explosive round. All art is original pixel art made for this mod (`tools/make_art.py`).
 
-Out of the box it targets the two .75 bolt weapons from these Workshop packs (you need them
-installed for the mod to do anything):
+| Item | Notes |
+|---|---|
+| Boltgun | full auto, 30-round magazine, 80 m range |
+| Bolt Pistol | semi auto, one-handed, 10-round magazine |
+| .75 Bolt | ammo, stacks to 40, craftable |
+| Boltgun Magazine (30), Bolt Pistol Magazine (10) | craftable |
 
-- rifle: Workshop item 3815200763 (modGuid `54db9210-9262-49f2-9034-b473642e9b4b`)
-- pistol: Workshop item 3815190597 (modGuid `55904d9b-d13a-458b-a958-8ae50d57bed8`)
+The guns spawn rarely in rooms and can be crafted.
 
-Any other weapon can be added by item id in the config.
+## What a bolt does
 
-## What a round does
-
-1. **Launch.** A propellant charge pushes the round out of the barrel at `LaunchSpeed` (300 m/s).
-2. **Rocket motor.** After `IgnitionDelay` (0.02 s) the motor lights and accelerates the round
-   to `FinalSpeed` (975 m/s) over `BurnTime` (0.08 s). The round visibly speeds up after
-   leaving the barrel.
+1. **Launch.** A propellant charge pushes the bolt out of the barrel at `LaunchSpeed` (300 m/s).
+2. **Rocket motor.** After `IgnitionDelay` (0.02 s) the motor lights and accelerates the bolt to
+   `FinalSpeed` (975 m/s) over `BurnTime` (0.08 s). You can see the bolt speed up after it leaves the barrel.
 3. **Armour-piercing impact.** The hardened tip hits for `KineticDamage` (2000, about a 20 mm
    autocannon hit) at `ArmorPenetration` 8, the top tier of the game's armour-piercing scale.
-   The round stops inside the target and doesn't pass through.
+   The bolt stops inside the target and doesn't pass through.
 4. **Mass-reactive detonation.** `FuseDelay` (0.04 s) later the payload goes off inside the body
    part it hit for `InternalDamage` (1500), and a small blast (`BlastDamage` 250, `BlastRadius` 1.2 m)
-   goes off at that spot. Rounds that hit walls, vehicles or the ground go off on contact (blast only).
+   goes off at that spot. Bolts that hit walls, vehicles or the ground go off on contact (blast only).
 
-All numbers are in `BepInEx\config\girthy_mods.zedzone.massreactive.cfg`.
+Every number is in `BepInEx\config\girthy_mods.zedzone.boltgun.cfg`. `WeaponModGuids` lists the
+weapons that fire rocket bolts. Add another weapon's modGuid there to give it the same rounds.
 
 ## Multiplayer
 
-Every player should run the mod. The player who fires the round handles its damage, the same way
-the game handles normal bullets. Other players see the blast as an effect only. This has not been
-tested in multiplayer yet.
+Every player needs the mod (the items are part of it anyway). The player who fires a bolt handles
+its damage, the same way the game handles normal bullets. Not tested in multiplayer yet.
 
 ## Logs
 
-`BepInEx\MassReactive.log`. Set `VerboseLog = true` to log every round fired (with the weapon's
-item id), every impact and every detonation.
+`BepInEx\Boltgun.log`. Set `VerboseLog = true` to log every round fired (with the weapon's item id),
+every impact and every detonation.
 
-## Building
+## Repo layout
+
+- `src/` the plugin (rocket flight, impact, detonation)
+- `items/<Type>/<item>/` sprites and previews; `tools/make_art.py` draws them
+- `tools/build_items.py` writes the item data and packs `workshop/content/<Type>/<guid>.zedmod` + `modpack.json`.
+  Names and stats live in that script. Never change an item's guid after release.
+- `workshop/` Steam Workshop content, preview and description; `publish-workshop.ps1` uploads it
+
+## Building and publishing
 
 ```
-dotnet build src/MassReactive.csproj -c Release -p:GameDir="D:\SteamLibrary\steamapps\common\ZED ZONE"
+python tools/make_art.py; python tools/build_items.py      # only after changing art, names or stats
+.\publish-workshop.ps1 -SteamUser <login>                     # builds the DLL and uploads (Private on first upload)
 ```
 
-## Publishing to the Steam Workshop
-
-```
-.\publish-workshop.ps1 -SteamUser <login>
-```
-
-## How it works (for modders)
+## How the plugin works (for modders)
 
 - `BasicBullet.Init` (virtual, called by the weapon after it sets the round's fields): tags rounds whose
-  `fireWeapon.weaponData.itemId` is a configured weapon, sets launch speed, damage, and penetrate count 0.
+  `fireWeapon.weaponData.itemId` is one of the configured weapons, then sets launch speed, damage, and penetrate count 0.
+  Item ids come from `ModLoader.loadedMods[guid].resolvedRuntimeId`.
 - A hidden host object ramps `bulletSpeed` every physics step. The game moves rounds by
   `transform.right * bulletSpeed * fixedDeltaTime`, and the range check uses the distance from `startPos`.
 - `BasicBullet.HitCharacter`: the game passes `penetrateTime` to `OnDirectedHit` as `armorPenetration`,

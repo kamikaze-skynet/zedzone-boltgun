@@ -6,4 +6,4 @@ tools/
 .vs/
 .idea/
 # the built DLL is copied in at publish time
-workshop/content/MassReactive/*.dll
+workshop/content/Boltgun/*.dll

@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>MassReactive</AssemblyName>
-    <RootNamespace>MassReactive</RootNamespace>
+    <AssemblyName>Boltgun</AssemblyName>
+    <RootNamespace>Boltgun</RootNamespace>
     <TargetFramework>net6.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
-    <Version>0.1.0</Version>
+    <Version>1.0.0</Version>
     <DebugType>none</DebugType>
     <GenerateDependencyFile>false</GenerateDependencyFile>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
@@ -17,7 +17,7 @@
   <!--
     Point this at your game. BepInEx (IL2CPP) must have run once so BepInEx\interop exists.
       dotnet build -c Release -p:GameDir="D:\SteamLibrary\steamapps\common\ZED ZONE"
-    Add -p:CopyToMods=true to copy the DLL into %USERPROFILE%\AppData\LocalLow\LevenLiu\ZEDZONE\Mods\MassReactive.
+    Add -p:CopyToMods=true to copy the DLL into %USERPROFILE%\AppData\LocalLow\LevenLiu\ZEDZONE\Mods\Boltgun.
   -->
   <PropertyGroup>
     <GameDir Condition="'$(GameDir)' == ''">C:\Program Files (x86)\Steam\steamapps\common\ZED ZONE</GameDir>
@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <Target Name="CopyToMods" AfterTargets="Build" Condition="'$(CopyToMods)' == 'true'">
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsDir)\MassReactive" />
-    <Message Importance="high" Text="Copied $(TargetFileName) to $(ModsDir)\MassReactive" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsDir)\Boltgun" />
+    <Message Importance="high" Text="Copied $(TargetFileName) to $(ModsDir)\Boltgun" />
   </Target>
 </Project>

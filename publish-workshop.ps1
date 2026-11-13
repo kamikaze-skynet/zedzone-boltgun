@@ -1,4 +1,4 @@
-# Builds MassReactive and uploads it to the Steam Workshop with SteamCMD.
+# Builds Boltgun and uploads it to the Steam Workshop with SteamCMD.
 #
 #   .\publish-workshop.ps1 -SteamUser <login>                     first upload: creates a Private item
 #   .\publish-workshop.ps1 -SteamUser <login> -Visibility Public  make it public
@@ -19,27 +19,27 @@ $ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 
 $AppId   = "1211600"
-$Title   = "Mass-Reactive Rounds - rocket-boosted explosive rounds"
+$Title   = "Boltgun - .75 rocket-propelled explosive rifle and pistol"
 $Content = Join-Path $PSScriptRoot "workshop\content"
-$ModDir  = Join-Path $Content "MassReactive"
+$ModDir  = Join-Path $Content "Boltgun"
 $Preview = Join-Path $PSScriptRoot "workshop\preview.png"
 $IdFile  = Join-Path $PSScriptRoot "workshop\publishedfileid.txt"
-$Dll     = Join-Path $PSScriptRoot "src\bin\Release\net6.0\MassReactive.dll"
+$Dll     = Join-Path $PSScriptRoot "src\bin\Release\net6.0\Boltgun.dll"
 
 # ---- 1. build and stage the item folder
 if (-not $SkipBuild) {
-    dotnet build src\MassReactive.csproj -c Release "-p:GameDir=$GameDir"
+    dotnet build src\Boltgun.csproj -c Release "-p:GameDir=$GameDir"
     if ($LASTEXITCODE -ne 0) { throw "Build failed" }
 }
 if (-not (Test-Path $Dll)) { throw "Missing $Dll - build first" }
 $Version = [System.Reflection.AssemblyName]::GetAssemblyName($Dll).Version.ToString(3)
-Copy-Item $Dll (Join-Path $ModDir "MassReactive.dll") -Force
+Copy-Item $Dll (Join-Path $ModDir "Boltgun.dll") -Force
 Copy-Item (Join-Path $PSScriptRoot "README.md") (Join-Path $ModDir "README.md") -Force
 $modJson = Join-Path $ModDir "mod.json"
 $json = Get-Content $modJson -Raw
 $json = $json -replace '"version"\s*:\s*"[^"]*"', ('"version": "' + $Version + '"')
 [System.IO.File]::WriteAllText($modJson, $json, (New-Object System.Text.UTF8Encoding($false)))
-Write-Host "==> Staged MassReactive $Version in workshop\content\MassReactive" -ForegroundColor Cyan
+Write-Host "==> Staged Boltgun $Version in workshop\content\Boltgun" -ForegroundColor Cyan
 
 # ---- 2. SteamCMD (downloaded once into tools\steamcmd)
 $Tools = Join-Path $PSScriptRoot "tools\steamcmd"
@@ -57,7 +57,7 @@ if (-not (Test-Path $SteamCmd)) {
 $Id = "0"
 if (Test-Path $IdFile) { $Id = (Get-Content $IdFile -Raw).Trim() }
 $isNew = ($Id -eq "0" -or $Id -eq "")
-if (-not $ChangeNote) { $ChangeNote = "MassReactive $Version" }
+if (-not $ChangeNote) { $ChangeNote = "Boltgun $Version" }
 
 function Clean([string]$s) { return ($s -replace '"', "'" -replace '\\', '/') }
 function P([string]$p) { return ($p -replace '\\', '/') }

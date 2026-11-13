@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MassReactive
+namespace Boltgun
 {
     // One round in flight.
     internal sealed class Bolt

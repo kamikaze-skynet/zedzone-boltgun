@@ -3,12 +3,12 @@ using System.IO;
 using BepInEx;
 using BepInEx.Logging;
 
-namespace MassReactive
+namespace Boltgun
 {
-    // Every line goes to BepInEx\LogOutput.log and to BepInEx\MassReactive.log
-    // (rewritten each launch, last launch kept as MassReactive.prev.log).
+    // Every line goes to BepInEx\LogOutput.log and to BepInEx\Boltgun.log
+    // (rewritten each launch, last launch kept as Boltgun.prev.log).
     // The file is flushed on every line: if the game ever hard-crashes, the
-    // last line in MassReactive.log names the step that was running.
+    // last line in Boltgun.log names the step that was running.
     internal static class PLog
     {
         static ManualLogSource _src;
@@ -21,13 +21,13 @@ namespace MassReactive
             _src = src;
             try
             {
-                string path = Path.Combine(Paths.BepInExRootPath, "MassReactive.log");
-                string prev = Path.Combine(Paths.BepInExRootPath, "MassReactive.prev.log");
+                string path = Path.Combine(Paths.BepInExRootPath, "Boltgun.log");
+                string prev = Path.Combine(Paths.BepInExRootPath, "Boltgun.prev.log");
                 try { if (File.Exists(path)) File.Copy(path, prev, true); } catch { }
                 _file = new StreamWriter(new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite)) { AutoFlush = true };
-                _file.WriteLine($"MassReactive {version} log - {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                _file.WriteLine($"Boltgun {version} log - {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
             }
-            catch (Exception e) { _src?.LogWarning("Couldn't open MassReactive.log: " + e.Message); }
+            catch (Exception e) { _src?.LogWarning("Couldn't open Boltgun.log: " + e.Message); }
         }
 
         static void Write(LogLevel level, string msg)

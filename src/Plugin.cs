@@ -6,13 +6,13 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 
-namespace MassReactive
+namespace Boltgun
 {
-    [BepInPlugin(Guid, "Mass-Reactive Rounds", Version)]
+    [BepInPlugin(Guid, "Boltgun", Version)]
     public class Plugin : BasePlugin
     {
-        public const string Guid = "girthy_mods.zedzone.massreactive";
-        public const string Version = "0.1.0";
+        public const string Guid = "girthy_mods.zedzone.boltgun";
+        public const string Version = "1.0.0";
 
         internal static ConfigEntry<bool> Enabled;
         internal static ConfigEntry<string> WeaponModGuids;
@@ -44,10 +44,10 @@ namespace MassReactive
         {
             Enabled = Config.Bind("General", "Enabled", true, "Turn the mass-reactive behaviour on or off.");
             WeaponModGuids = Config.Bind("General", "WeaponModGuids",
-                "54db9210-9262-49f2-9034-b473642e9b4b,55904d9b-d13a-458b-a958-8ae50d57bed8",
-                "Comma-separated modGuids of the weapon items that fire mass-reactive rounds. The game's mod loader resolves each one to its item id. Defaults: the two .75 bolt weapons from the Workshop packs 3815200763 (rifle) and 3815190597 (pistol).");
+                "f5fc9e37-40ad-46b3-ad71-6be84c155ae4,bac356ff-83fd-47f1-a864-1a33e3c7ba5c",
+                "Comma-separated modGuids of the weapon items that fire rocket bolts. The game's mod loader resolves each one to its item id. Defaults: this mod's Boltgun and Bolt Pistol. Add other weapons' modGuids here to give them the same rounds.");
             ExtraWeaponIds = Config.Bind("General", "ExtraWeaponIds", "",
-                "Extra item ids (comma-separated) that also fire mass-reactive rounds. Turn VerboseLog on and fire a weapon to see its id in BepInEx\\MassReactive.log.");
+                "Extra item ids (comma-separated) that also fire mass-reactive rounds. Turn VerboseLog on and fire a weapon to see its id in BepInEx\\Boltgun.log.");
 
             LaunchSpeed = Config.Bind("Flight", "LaunchSpeed", 300f,
                 new ConfigDescription("Speed (m/s) the propellant charge gives the round as it leaves the barrel.", new AcceptableValueRange<float>(20f, 3000f)));
@@ -80,7 +80,7 @@ namespace MassReactive
             BlastPrefab = Config.Bind("Detonation", "BlastPrefab", "FX/ExplosionEffect_40mmGrenade",
                 "Game resource used for the blast. Leave as is unless the game renames it.");
 
-            VerboseLog = Config.Bind("Debug", "VerboseLog", false, "Log every round fired, hit and detonation to BepInEx\\MassReactive.log.");
+            VerboseLog = Config.Bind("Debug", "VerboseLog", false, "Log every round fired, hit and detonation to BepInEx\\Boltgun.log.");
 
             PLog.Verbose = VerboseLog.Value;
             PLog.Open(Log, Version);
@@ -90,7 +90,7 @@ namespace MassReactive
             try
             {
                 ClassInjector.RegisterTypeInIl2Cpp<BoltHost>();
-                var go = new GameObject("MassReactive.Host");
+                var go = new GameObject("Boltgun.Host");
                 UnityEngine.Object.DontDestroyOnLoad(go);
                 go.hideFlags = HideFlags.HideAndDontSave;
                 go.AddComponent<BoltHost>();
@@ -99,7 +99,7 @@ namespace MassReactive
 
             var harmony = new Harmony(Guid);
             Patches.Apply(harmony);
-            PLog.Info($"Mass-Reactive Rounds {Version} loaded.");
+            PLog.Info($"Boltgun {Version} loaded.");
         }
     }
 }

@@ -2,7 +2,7 @@ using System;
 using HarmonyLib;
 using UnityEngine;
 
-namespace MassReactive
+namespace Boltgun
 {
     internal static class Patches
     {

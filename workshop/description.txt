@@ -1,16 +1,20 @@
-Makes .75 bolt weapons behave like real self-propelled explosive rounds.
+A .75 rocket-bolt rifle and pistol for ZED ZONE.
 
-[b]What a round does[/b]
+[b]Adds[/b]
 [list]
-[*] A propellant charge launches it out of the barrel at 300 m/s
-[*] A rocket motor lights and boosts it to 975 m/s
-[*] The hardened tip punches through armour and hits like a 20 mm autocannon round
-[*] A split second later the payload detonates inside the target, followed by a small blast
+[*] Boltgun - full-auto .75 rifle, 30-round magazine
+[*] Bolt Pistol - one-handed .75 sidearm, 10-round magazine
+[*] .75 Bolt ammo and both magazines (all craftable, the guns also turn up rarely in buildings)
 [/list]
 
-Works with the .75 bolt weapon packs (Workshop items 3815200763 and 3815190597). You need those installed.
-This mod adds no items or art. It only changes how the rounds fly and hit.
+[b]Every bolt is a small rocket[/b]
+[list]
+[*] A powder charge launches it out of the barrel at 300 m/s
+[*] A rocket motor lights and boosts it to 975 m/s
+[*] The hardened tip punches through armour and hits like a 20 mm autocannon round
+[*] A split second later the charge detonates inside the target, followed by a small blast
+[/list]
 
-Every number (speeds, damage, fuse delay, blast size) can be changed in BepInEx\config\girthy_mods.zedzone.massreactive.cfg.
+Every number (speeds, damage, fuse delay, blast size) can be changed in BepInEx\config\girthy_mods.zedzone.boltgun.cfg.
 
-Needs BepInEx (IL2CPP). Log: BepInEx\MassReactive.log
+Needs BepInEx (IL2CPP) with the ZED ZONE mod loader. Log: BepInEx\Boltgun.log
