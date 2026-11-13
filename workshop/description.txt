@@ -18,6 +18,4 @@ A .75 rocket-bolt rifle and pistol for ZED ZONE.
 
 Every number (speeds, damage, fuse delay, blast size) can be changed in BepInEx\config\girthy_mods.zedzone.boltgun.cfg.
 
-Gun, ammo and magazine art by 阿伦之心, used with permission.
-
 Needs BepInEx (IL2CPP) with the ZED ZONE mod loader. Log: BepInEx\Boltgun.log

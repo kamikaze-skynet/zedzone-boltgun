@@ -2,7 +2,7 @@
 
 A standalone mod that adds a .75 **Boltgun** rifle, a **Bolt Pistol**, **.75 Bolt** rounds and their
 magazines, plus a BepInEx (IL2CPP) plugin that makes every bolt fly and hit like a rocket-propelled
-explosive round. Gun art by 阿伦之心, used with permission (see CREDITS.md).
+explosive round. The item art is a placeholder until we have our own (see `ART.md`).
 
 | Item | Notes |
 |---|---|
@@ -42,7 +42,7 @@ every impact and every detonation.
 ## Repo layout
 
 - `src/` the plugin (rocket flight, impact, detonation)
-- `items/<Type>/<item>/` sprites and previews (阿伦之心's art)
+- `items/<Type>/<item>/` sprites and previews (placeholder art)
 - `tools/build_items.py` writes the item data and packs `workshop/content/<Type>/<guid>.zedmod` + `modpack.json`.
   Names and stats live in that script. Never change an item's guid after release.
 - `workshop/` Steam Workshop content, preview and description; `publish-workshop.ps1` uploads it

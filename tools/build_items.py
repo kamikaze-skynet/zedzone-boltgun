@@ -60,8 +60,7 @@ def weapon_common():
         "boltActionClipVolume": 1.0, "boltActionClipPitch": 1.0,
     }
 
-# Sprites, regions and hand/muzzle offsets are 阿伦之心's original work (Workshop 3815200763 / 3815190597),
-# used with the author's permission. See CREDITS.md.
+# Placeholder sprites; regions and hand/muzzle offsets match them. See ART.md before swapping art.
 RIFLE_REGIONS = [("Main", (3, 15, 253, 118)), ("MainBody", (21, 21, 229, 110)), ("MovingPart", (99, 31, 45, 17)),
                  ("Barrel", (221, 42, 29, 25)), ("Aimer", (73, 17, 128, 11)), ("Gunstock", (21, 21, 32, 63))]
 PISTOL_REGIONS = [("Main", (2, 0, 254, 195)), ("MainBody", (15, 0, 241, 191)), ("MovingPart", (70, 54, 38, 26)),
