@@ -56,9 +56,12 @@ namespace Boltgun
             try
             {
                 var data = b.fireWeapon?.weaponData;
-                return data == null ? -1 : data.itemId;
+                if (data != null) return data.itemId;
             }
-            catch { return -1; }
+            catch { }
+            // Another player's shot: the game rebuilds it from a network message that names the weapon.
+            try { if (Remote.WeaponId >= 0 && b.netVisualOnly) return Remote.WeaponId; } catch { }
+            return -1;
         }
     }
 }

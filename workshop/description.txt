@@ -19,7 +19,7 @@ A .75 rocket-bolt rifle and pistol for ZED ZONE.
 [b]Lore touches[/b]
 [list]
 [*] Every round is drawn as a bolt with a glowing rocket motor
-[*] The motor lights with a flash and a puff of smoke a few metres from the barrel, then leaves a flame and smoke trail
+[*] The motor lights with a flash, a puff of smoke and a hiss a few metres from the barrel, then leaves a flame and smoke trail
 [*] Spent casings fly from the gun on every shot
 [*] The internal charge throws shrapnel at anyone standing close to the target
 [*] Anything that survives the charge is knocked off its feet
@@ -28,6 +28,8 @@ A .75 rocket-bolt rifle and pistol for ZED ZONE.
 [*] Bolts that strike a wall or the ground at a shallow angle glance off without going off
 [*] Heavy recoil, worst on the one-handed Bolt Pistol
 [/list]
+
+In co-op, other players see your bolts fly and explode the same way. Everyone needs the mod.
 
 Every number (speeds, damage, fuse delay, blast size) can be changed in BepInEx\config\girthy_mods.zedzone.boltgun.cfg.
 

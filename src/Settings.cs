@@ -23,6 +23,8 @@ namespace Boltgun
         internal static ConfigEntry<bool> BoltSprite, IgnitionFlash, Knockdown;
         internal static ConfigEntry<float> BoltLength, IgnitionFlashSize, ShrapnelDamage, ShrapnelRadius, KnockdownTime;
         internal static ConfigEntry<int> ShrapnelSparks;
+        internal static ConfigEntry<float> RocketSoundVolume;
+        internal static ConfigEntry<string> RocketSoundClip;
         internal static ConfigEntry<bool> VerboseLog;
 
         static AcceptableValueRange<float> R(float a, float b) => new AcceptableValueRange<float>(a, b);
@@ -77,6 +79,9 @@ namespace Boltgun
 
             Knockdown = c.Bind("Wounds", "Knockdown", true, "A target that survives the internal charge is knocked off its feet.");
             KnockdownTime = c.Bind("Wounds", "KnockdownTime", 1.5f, new ConfigDescription("Seconds the survivor stays down.", R(0.1f, 10)));
+
+            RocketSoundVolume = c.Bind("Sound", "RocketSoundVolume", 0.6f, new ConfigDescription("Volume of the hiss when a bolt's motor lights. 0 = silent.", R(0, 2)));
+            RocketSoundClip = c.Bind("Sound", "RocketSoundClip", "", "Name of a game sound to use for the motor. Empty = a firework's launch sound, else the game's ignite sound. With VerboseLog on, the log lists sounds that might fit.");
 
             VerboseLog = c.Bind("Debug", "VerboseLog", false, "Log every bolt fired, hit and detonated to BepInEx\\Boltgun.log.");
         }

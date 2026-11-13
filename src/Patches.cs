@@ -11,6 +11,24 @@ namespace Boltgun
             Patch(h, nameof(BasicBullet.Init), nameof(Init_Pre), nameof(Init_Post));
             Patch(h, nameof(BasicBullet.HitCharacter), nameof(HitCharacter_Pre), nameof(HitCharacter_Post));
             Patch(h, nameof(BasicBullet.OnHit), null, nameof(OnHit_Post));
+
+            try
+            {
+                var spawn = AccessTools.Method(typeof(ZedZone.Net.NetProjectileSync), nameof(ZedZone.Net.NetProjectileSync.SpawnVisualBullet));
+                if (spawn == null) PLog.Warn("NetProjectileSync.SpawnVisualBullet not found: other players' bolts look like plain bullets.");
+                else h.Patch(spawn, new HarmonyMethod(typeof(Patches), nameof(Spawn_Pre)), new HarmonyMethod(typeof(Patches), nameof(Spawn_Post)));
+            }
+            catch (Exception e) { PLog.Error("Patching NetProjectileSync.SpawnVisualBullet failed", e); }
+        }
+
+        static void Spawn_Pre(ZedZone.Net.MsgProjectileFire msg)
+        {
+            try { Remote.Before(msg); } catch (Exception e) { PLog.Error("Remote shot hook (pre) failed", e); }
+        }
+
+        static void Spawn_Post(Transform parent)
+        {
+            try { Remote.After(parent); } catch (Exception e) { PLog.Error("Remote shot hook failed", e); }
         }
 
         static void Patch(Harmony h, string method, string pre, string post)

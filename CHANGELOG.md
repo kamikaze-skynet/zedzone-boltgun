@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0
+- Multiplayer: other players' bolts now look and fly like yours (rocket boost, trail, bolt sprite, ignition flash and sound,
+  the blast where they hit). The game rebuilds their shots from a network message without a weapon attached, so the
+  plugin hooks NetProjectileSync.SpawnVisualBullet and reads the weapon id from that message. Damage, duds, gore,
+  shrapnel damage and knockdowns stay with the shooter, as before.
+- Rocket sound: a hiss when the motor lights, borrowed from the game (a firework's launch sound, else the ignite sound).
+  `[Sound] RocketSoundVolume` and `RocketSoundClip` pick the volume and the sound.
+
 ## 1.2.0
 - Our own bolt in flight: a code-drawn bolt (dark casing, brass band, steel tip, glowing motor) rides on every round.
 - Ignition flash: a flash and smoke puff where the rocket motor lights, a few metres from the barrel.

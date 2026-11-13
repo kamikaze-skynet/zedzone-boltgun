@@ -74,7 +74,11 @@ namespace Boltgun
             var state = new Bolt { Bullet = b, FiredAt = Time.time };
             try { state.Muzzle = b.startPos; if (state.Muzzle == Vector3.zero) state.Muzzle = b.transform.position; } catch { }
             if (speedBeforeInit > 0.01f) state.Jitter = Mathf.Clamp(b.bulletSpeed / speedBeforeInit, 0.5f, 1.5f);
-            if (Settings.DudChance.Value > 0f && UnityEngine.Random.value < Settings.DudChance.Value) state.Dud = true;
+            bool remote = false;
+            try { remote = b.netVisualOnly; } catch { }
+            // Duds are rolled by the shooter, who also does the damage; other players always see the blast.
+            if (!remote && Settings.DudChance.Value > 0f && UnityEngine.Random.value < Settings.DudChance.Value) state.Dud = true;
+            if (remote) state.Jitter = 1f;
 
             b.bulletSpeed = SpeedAt(0f) * state.Jitter;
             if (Settings.KineticDamage.Value > 0f) b.bulletDamage = Settings.KineticDamage.Value;
@@ -84,6 +88,8 @@ namespace Boltgun
             try { state.Body = Fx.BoltBody(b); } catch (Exception e) { PLog.Debug("Bolt sprite: " + e.Message); }
             _bolts[b.Pointer] = state;
         }
+
+        internal static bool Tracked(BasicBullet b) => b != null && _bolts.ContainsKey(b.Pointer);
 
         internal static float SpeedAt(float t)
         {
@@ -111,7 +117,7 @@ namespace Boltgun
                     if (s.Exhaust == null && t >= Settings.IgnitionDelay.Value)
                     {
                         s.Exhaust = Exhaust.Light(s.Bullet) ?? Exhaust.None;
-                        try { Vector3 r = s.Bullet.transform.right; Fx.Ignition(s.Bullet.transform.position, new Vector2(r.x, r.y)); }
+                        try { Vector3 r = s.Bullet.transform.right; Fx.Ignition(s.Bullet.transform.position, new Vector2(r.x, r.y)); Sound.Ignition(s.Bullet.transform.position); }
                         catch (Exception e) { PLog.Debug("Ignition flash: " + e.Message); }
                     }
                 }

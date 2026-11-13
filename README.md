@@ -32,6 +32,7 @@ The guns spawn rarely in rooms and can be crafted.
 6. **More lore (1.2.0).** Each round is drawn as our own bolt with a glowing motor (`BoltSprite`), the motor
    lights with a flash and smoke puff (`IgnitionFlash`), the guns throw out spent casings, the charge throws
    shrapnel at anyone within `ShrapnelRadius` (3 m), and a target that survives it is knocked down (`[Wounds]`).
+7. **Rocket sound (1.3.0).** A hiss when the motor lights (`[Sound]`), using a sound already in the game.
 
 Every number is in `BepInEx\config\girthy_mods.zedzone.boltgun.cfg`. `WeaponModGuids` lists the
 weapons that fire rocket bolts. Add another weapon's modGuid there to give it the same rounds.
@@ -39,7 +40,10 @@ weapons that fire rocket bolts. Add another weapon's modGuid there to give it th
 ## Multiplayer
 
 Every player needs the mod (the items are part of it anyway). The player who fires a bolt handles
-its damage, the same way the game handles normal bullets. Not tested in multiplayer yet.
+its damage, duds, gore, shrapnel and knockdowns, the same way the game handles normal bullets.
+Other players see the bolt fly and explode: the game rebuilds their shots as visual-only rounds in
+`NetProjectileSync.SpawnVisualBullet`, which the plugin hooks to read the weapon id from the shot message.
+Everyone needs the same Boltgun version so the item ids match. Not tested in multiplayer yet.
 
 ## Logs
 
