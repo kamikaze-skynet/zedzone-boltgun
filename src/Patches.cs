@@ -14,11 +14,24 @@ namespace Boltgun
 
             try
             {
+                var loadAll = AccessTools.Method(typeof(ModLoader), nameof(ModLoader.LoadAll));
+                if (loadAll == null) PLog.Warn("ModLoader.LoadAll not found: bundled items can't load.");
+                else h.Patch(loadAll, postfix: new HarmonyMethod(typeof(Patches), nameof(LoadAll_Post)));
+            }
+            catch (Exception e) { PLog.Error("Patching ModLoader.LoadAll failed", e); }
+
+            try
+            {
                 var spawn = AccessTools.Method(typeof(ZedZone.Net.NetProjectileSync), nameof(ZedZone.Net.NetProjectileSync.SpawnVisualBullet));
                 if (spawn == null) PLog.Warn("NetProjectileSync.SpawnVisualBullet not found: other players' bolts look like plain bullets.");
                 else h.Patch(spawn, new HarmonyMethod(typeof(Patches), nameof(Spawn_Pre)), new HarmonyMethod(typeof(Patches), nameof(Spawn_Post)));
             }
             catch (Exception e) { PLog.Error("Patching NetProjectileSync.SpawnVisualBullet failed", e); }
+        }
+
+        static void LoadAll_Post()
+        {
+            try { Bundled.LoadMissing(); } catch (Exception e) { PLog.Error("Loading bundled items failed", e); }
         }
 
         static void Spawn_Pre(ZedZone.Net.MsgProjectileFire msg)

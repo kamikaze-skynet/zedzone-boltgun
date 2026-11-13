@@ -7,6 +7,8 @@
   shrapnel damage and knockdowns stay with the shooter, as before.
 - Rocket sound: a hiss when the motor lights, borrowed from the game (a firework's launch sound, else the ignite sound).
   `[Sound] RocketSoundVolume` and `RocketSoundClip` pick the volume and the sound.
+- Girthy Mods / Hefty installs: the item packs ship in `items\` next to Boltgun.dll and the plugin loads any the game
+  didn't (ModLoader.TryLoadZedmod after ModLoader.LoadAll). Workshop installs are unchanged.
 
 ## 1.2.0
 - Our own bolt in flight: a code-drawn bolt (dark casing, brass band, steel tip, glowing motor) rides on every round.
