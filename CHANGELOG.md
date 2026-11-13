@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.3
+- Boltgun: spread (fireAngle) 1.0 (was 1.2), recoil 1.0 (was 0.95).
+
 ## 1.3.2
 - Spent casings are now our own fat brass .75 casings drawn by the plugin (the game's casing item was a .300 Magnum shell).
   They arc out of the gun, bounce, lie for 4 s and fade. Nothing to pick up. `[Visuals] SpentCasings` etc.

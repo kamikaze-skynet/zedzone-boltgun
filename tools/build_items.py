@@ -84,8 +84,8 @@ def rifle():
     d.update({
         "weaponType": 2, "weaponSlotSize": 1, "gunActionType": 0, "singleHand": False,
         "moveSpeedFloat": 0.85, "damage": 2000.0, "fireRange": 40.0, "noiseRange": 70.0,
-        "bulletForce": 1400.0, "bulletSpeed": 300.0, "fireAngle": 1.2, "bulletNumber": 1,
-        "fireInterval": 0.1, "recoilIntensity": 0.95, "reloadTime": 3.2,
+        "bulletForce": 1400.0, "bulletSpeed": 300.0, "fireAngle": 1.0, "bulletNumber": 1,
+        "fireInterval": 0.1, "recoilIntensity": 1.0, "reloadTime": 3.2,
         "defaultMagazineId": RID["rifle_mag"], "magazineSize": 30,
         "weaponHandHeightOffset": -0.2847541570663452, "weaponHandOffsetRange": 0.3921833336353302,
         "leftHandOffsetRange": 0.4398137927055359, "leftHandHeightOffset": -0.0033399462699890138,
