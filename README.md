@@ -2,7 +2,7 @@
 
 A standalone mod that adds a .75 **Boltgun** rifle, a **Bolt Pistol**, **.75 Bolt** rounds and their
 magazines, plus a BepInEx (IL2CPP) plugin that makes every bolt fly and hit like a rocket-propelled
-explosive round. All art is original pixel art made for this mod (`tools/make_art.py`).
+explosive round. Gun art by 阿伦之心, used with permission (see CREDITS.md).
 
 | Item | Notes |
 |---|---|
@@ -21,7 +21,8 @@ The guns spawn rarely in rooms and can be crafted.
 3. **Armour-piercing impact.** The hardened tip hits for `KineticDamage` (2000, about a 20 mm
    autocannon hit) at `ArmorPenetration` 8, the top tier of the game's armour-piercing scale.
    The bolt stops inside the target and doesn't pass through.
-4. **Mass-reactive detonation.** `FuseDelay` (0.04 s) later the payload goes off inside the body
+4. **Mass-reactive detonation.** The fuse arms after `ArmingDistance` (2 m) of flight, so point-blank hits are
+   kinetic only. `FuseDelay` (0.04 s) later the payload goes off inside the body
    part it hit for `InternalDamage` (1500), and a small blast (`BlastDamage` 250, `BlastRadius` 1.2 m)
    goes off at that spot. Bolts that hit walls, vehicles or the ground go off on contact (blast only).
 
@@ -41,7 +42,7 @@ every impact and every detonation.
 ## Repo layout
 
 - `src/` the plugin (rocket flight, impact, detonation)
-- `items/<Type>/<item>/` sprites and previews; `tools/make_art.py` draws them
+- `items/<Type>/<item>/` sprites and previews (阿伦之心's art)
 - `tools/build_items.py` writes the item data and packs `workshop/content/<Type>/<guid>.zedmod` + `modpack.json`.
   Names and stats live in that script. Never change an item's guid after release.
 - `workshop/` Steam Workshop content, preview and description; `publish-workshop.ps1` uploads it
@@ -49,11 +50,15 @@ every impact and every detonation.
 ## Building and publishing
 
 ```
-python tools/make_art.py; python tools/build_items.py      # only after changing art, names or stats
+python tools/build_items.py      # only after changing art, names or stats
 .\publish-workshop.ps1 -SteamUser <login>                     # builds the DLL and uploads (Private on first upload)
 ```
 
 ## How the plugin works (for modders)
+
+Code: `Settings` (config), `Weapons` (which item ids fire bolts), `Flight` (launch + rocket ramp),
+`Impact` (hit hooks), `Detonation` (fuse, internal damage, blast), `Patches` (Harmony wiring).
+
 
 - `BasicBullet.Init` (virtual, called by the weapon after it sets the round's fields): tags rounds whose
   `fireWeapon.weaponData.itemId` is one of the configured weapons, then sets launch speed, damage, and penetrate count 0.
