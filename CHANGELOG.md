@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.4
+- Boltgun spread (fireAngle) 1.4. Recoil 1.0 on both guns (Bolt Pistol was 1.7).
+
 ## 1.3.3
 - Boltgun: spread (fireAngle) 1.0 (was 1.2), recoil 1.0 (was 0.95).
 
