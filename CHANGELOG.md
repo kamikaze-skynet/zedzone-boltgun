@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.7
+- Laser sights: a fitted laser attached to the bolt guns but its beam stayed dark. After the game draws the laser,
+  the plugin now checks it and, if the beam is still hidden on a bolt gun, casts it itself (stops at walls and
+  targets) and shows the beam and dot. Config: General / LaserFix (on by default). The first few checks are written
+  to BepInEx\Boltgun.log as "Laser:" lines.
+
 ## 1.3.6
 - Sights and laser sights now fit the Boltgun and Bolt Pistol. The sight slot is open on both guns, and after the game
   loads mods the plugin adds the .75 Bolt to the calibre list of every sight-slot part and every laser part (this fixed

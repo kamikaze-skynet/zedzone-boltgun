@@ -29,6 +29,13 @@ namespace Boltgun
 
             try
             {
+                var late = AccessTools.Method(typeof(LaserPointerEffect), nameof(LaserPointerEffect.LateUpdate));
+                if (late != null) h.Patch(late, postfix: new HarmonyMethod(typeof(Patches), nameof(Laser_Post)));
+            }
+            catch (Exception e) { PLog.Error("Patching LaserPointerEffect.LateUpdate failed", e); }
+
+            try
+            {
                 var spawn = AccessTools.Method(typeof(ZedZone.Net.NetProjectileSync), nameof(ZedZone.Net.NetProjectileSync.SpawnVisualBullet));
                 if (spawn == null) PLog.Warn("NetProjectileSync.SpawnVisualBullet not found: other players' bolts look like plain bullets.");
                 else h.Patch(spawn, new HarmonyMethod(typeof(Patches), nameof(Spawn_Pre)), new HarmonyMethod(typeof(Patches), nameof(Spawn_Post)));
@@ -46,6 +53,11 @@ namespace Boltgun
         static void Reload_Pre(BasicRangedWeapon __instance)
         {
             try { Mags.OnReload(__instance); } catch (Exception e) { PLog.Debug("Reload log failed: " + e.Message); }
+        }
+
+        static void Laser_Post(LaserPointerEffect __instance)
+        {
+            try { Laser.After(__instance); } catch (Exception e) { PLog.Debug("Laser fix failed: " + e.Message); }
         }
 
         static void Spawn_Pre(ZedZone.Net.MsgProjectileFire msg)

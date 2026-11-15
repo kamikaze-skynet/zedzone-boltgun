@@ -30,12 +30,14 @@ namespace Boltgun
         internal static ConfigEntry<string> RocketSoundClip;
         internal static ConfigEntry<bool> VerboseLog;
         internal static ConfigEntry<bool> Attachments;
+        internal static ConfigEntry<bool> LaserFix;
 
         static AcceptableValueRange<float> R(float a, float b) => new AcceptableValueRange<float>(a, b);
 
         internal static void Bind(ConfigFile c)
         {
             Attachments = c.Bind("General", "Attachments", true, "Let sights and laser sights go on the Boltgun and Bolt Pistol (adds the .75 Bolt to their calibre lists).");
+            LaserFix = c.Bind("General", "LaserFix", true, "If a fitted laser sight stays dark on a bolt gun, draw its beam anyway.");
             Enabled = c.Bind("General", "Enabled", true, "Turn the rocket-bolt behaviour on or off (the items stay).");
             WeaponModGuids = c.Bind("General", "WeaponModGuids",
                 "f5fc9e37-40ad-46b3-ad71-6be84c155ae4,bac356ff-83fd-47f1-a864-1a33e3c7ba5c",
