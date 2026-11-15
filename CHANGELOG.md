@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.6
+- Sights and laser sights now fit the Boltgun and Bolt Pistol. The sight slot is open on both guns, and after the game
+  loads mods the plugin adds the .75 Bolt to the calibre list of every sight-slot part and every laser part (this fixed
+  "wrong caliber"). Config: General / Attachments (on by default).
+
 ## 1.3.5
 - Magazine swaps (R): after the game loads mods, the plugin checks that the guns, magazines and .75 ammo point at each other
   (ammo id, magazine index) and repairs the links if the mod loader changed an id. Each R press on a bolt weapon logs

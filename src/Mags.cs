@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Boltgun
@@ -23,6 +24,13 @@ namespace Boltgun
             }
             catch { }
             return -1;
+        }
+
+        internal static int AmmoId() => IdOf(AmmoGuid);
+
+        internal static IEnumerable<int> GunIds()
+        {
+            foreach (var g in GunGuids) { int id = IdOf(g); if (id > 0) yield return id; }
         }
 
         // After ModLoader.LoadAll: make sure the guns, magazines and ammo point at each other.

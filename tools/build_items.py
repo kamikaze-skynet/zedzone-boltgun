@@ -63,7 +63,7 @@ def weapon_common():
         "isAirPowerd": False, "airPressure_redZoneSize": 0.0, "airPressure_yellowZoneSize": 0.0,
         "airPressure_greenZoneSize": 0.0, "airPressure_chargeZoneSize": 0.0, "movingPartRange": 0.0,
         "hasMainGripBaseline": True, "mainGripBaselineY": 0.09031009674072266, "handPoseVersion": 1,
-        "partModifiable_Barrel": False, "partModifiable_Aimer": False, "partModifiable_Gunstock": False,
+        "partModifiable_Barrel": False, "partModifiable_Aimer": True, "partModifiable_Gunstock": False,
         "bulletPrefabName": "50BMGBullet", "fireClip": "50BMG_Fire_0", "fillingClip": "AK_Reload_2",
         "reloadClip": "Uzi_Reload", "reloadFinishedClip": "Shotgun_Reload", "boltActionClip": "",
         "fireClipVolume": 1.0, "fireClipPitch": 0.53, "fillingClipVolume": 1.0, "fillingClipPitch": 1.0,

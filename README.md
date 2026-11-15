@@ -11,7 +11,7 @@ explosive round. The item art is a placeholder until we have our own (see `ART.m
 | .75 Bolt | ammo, stacks to 40, craftable |
 | Boltgun Magazine (30), Bolt Pistol Magazine (10) | craftable |
 
-The guns spawn rarely in rooms and can be crafted.
+The guns spawn rarely in rooms and can be crafted. Both take sights and laser sights in the sight slot.
 
 ## What a bolt does
 
