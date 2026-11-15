@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.5
+- Magazine swaps (R): after the game loads mods, the plugin checks that the guns, magazines and .75 ammo point at each other
+  (ammo id, magazine index) and repairs the links if the mod loader changed an id. Each R press on a bolt weapon logs
+  which magazines the game found and how full they are, to track down failed swaps.
+
 ## 1.3.4
 - Boltgun spread (fireAngle) 1.4. Recoil 1.0 on both guns (Bolt Pistol was 1.7).
 

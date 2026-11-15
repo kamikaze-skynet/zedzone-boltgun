@@ -22,6 +22,13 @@ namespace Boltgun
 
             try
             {
+                var reload = AccessTools.Method(typeof(BasicRangedWeapon), nameof(BasicRangedWeapon.Reload));
+                if (reload != null) h.Patch(reload, prefix: new HarmonyMethod(typeof(Patches), nameof(Reload_Pre)));
+            }
+            catch (Exception e) { PLog.Error("Patching BasicRangedWeapon.Reload failed", e); }
+
+            try
+            {
                 var spawn = AccessTools.Method(typeof(ZedZone.Net.NetProjectileSync), nameof(ZedZone.Net.NetProjectileSync.SpawnVisualBullet));
                 if (spawn == null) PLog.Warn("NetProjectileSync.SpawnVisualBullet not found: other players' bolts look like plain bullets.");
                 else h.Patch(spawn, new HarmonyMethod(typeof(Patches), nameof(Spawn_Pre)), new HarmonyMethod(typeof(Patches), nameof(Spawn_Post)));
@@ -32,6 +39,12 @@ namespace Boltgun
         static void LoadAll_Post()
         {
             try { Bundled.LoadMissing(); } catch (Exception e) { PLog.Error("Loading bundled items failed", e); }
+            try { Mags.Check(); } catch (Exception e) { PLog.Error("Magazine check failed", e); }
+        }
+
+        static void Reload_Pre(BasicRangedWeapon __instance)
+        {
+            try { Mags.OnReload(__instance); } catch (Exception e) { PLog.Debug("Reload log failed: " + e.Message); }
         }
 
         static void Spawn_Pre(ZedZone.Net.MsgProjectileFire msg)

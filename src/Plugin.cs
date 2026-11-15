@@ -11,7 +11,7 @@ namespace Boltgun
     public class Plugin : BasePlugin
     {
         public const string Guid = "girthy_mods.zedzone.boltgun";
-        public const string Version = "1.3.4";
+        public const string Version = "1.3.5";
 
         public override void Load()
         {
