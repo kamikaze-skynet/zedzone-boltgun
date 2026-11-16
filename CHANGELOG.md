@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.6
+- The .75 Bolt recipe no longer needs Copper Plate (item 9); the reusable casing takes its place.
+
 ## 1.4.5
 - The casing now ends right after the first taper (the "Bolter Round" ring); the window band and nose are gone.
 

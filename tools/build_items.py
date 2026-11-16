@@ -124,7 +124,7 @@ def pistol():
 
 def shell():
     d = base("shell75", "Ammo", 2500, [("Main", (12, 7, 223, 91))], (2, 1), 0.75, 0.1, 60.0, 40,
-             [(7, 10), (9, 5), (75, 5), (RID["casing75"], 20)], 3, 20, [(56, 1)])
+             [(7, 10), (75, 5), (RID["casing75"], 20)]   # 9 (Copper Plate) dropped in 1.4.6: casings replace it, 3, 20, [(56, 1)])
     d.update({"ammoNumber": 5, "ammoBaseDamage": 2000.0})
     return d
 
