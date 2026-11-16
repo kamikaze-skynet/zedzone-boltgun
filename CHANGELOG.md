@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.5
+- The casing now ends right after the first taper (the "Bolter Round" ring); the window band and nose are gone.
+
 ## 1.4.4
 - Bigger casing: it fills its inventory slot and picture, and is about two thirds larger on the ground.
 

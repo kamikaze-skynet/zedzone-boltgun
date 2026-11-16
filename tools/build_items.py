@@ -129,7 +129,7 @@ def shell():
     return d
 
 def casing():
-    d = base("casing75", "Ammo", 2100, [("Main", (2, 1, 252, 129))], (2, 1), 0.5, 0.01, 2.0, 200,
+    d = base("casing75", "Ammo", 2670, [("Main", (2, 2, 252, 164))], (2, 1), 0.5, 0.01, 2.0, 200,
              [(IRON_PLATE, 1)], 3, 20, [(56, 1)], spawn=False)
     d.update({"ammoNumber": 1, "ammoBaseDamage": 0.0})
     return d
