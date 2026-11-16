@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.15
+- Bolt Pistol Magazine: the top lip is as wide as the body.
+
 ## 1.4.14
 - Bolt Pistol Magazine: all four ribs are the same height.
 
