@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.10
+- Bolt Pistol recoil 0.8.
+
 ## 1.4.9
 - Bolt Pistol: impact damage 1300 (was 2000; config Impact / PistolKineticDamage), recoil 1.3 (was 1.0).
 
