@@ -147,7 +147,7 @@ BUILD = {
     ("Ammo", "shell75"): shell,
     ("Ammo", "casing75"): casing,
     ("Magazine", "rifle_mag"): lambda: mag("rifle_mag", 400, (96, 7, 67, 132), (2, 4), 30, 1.2000000476837158, 1, (0.012888908386230469, -0.12591969966888428)),
-    ("Magazine", "pistol_mag"): lambda: mag("pistol_mag", 1000, (20, 40, 216, 176), (2, 2), 10, 1.0, 0, (-0.0114, -0.09917294979095459)),
+    ("Magazine", "pistol_mag"): lambda: mag("pistol_mag", 1000, (20, 40, 216, 176), (2, 2), 10, 1.0, 0, (0.005671977996826172, -0.062)),
 }
 
 def main():

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.19
+- Bolt Pistol Magazine: back to full length, and moved up so it sits in the gun instead of floating below it.
+
 ## 1.4.18
 - Bolt Pistol Magazine: shorter, so less of it hangs below the gun.
 
