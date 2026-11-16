@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.8
+- Bolt Pistol back to its original look (the 1.4.7 repaint is undone).
+- Bolt Pistol Magazine shows the new .75 Bolt rounds.
+
 ## 1.4.7
 - Bolt Pistol repainted to match the Boltgun: blue housing, silver frame, black grip.
 
