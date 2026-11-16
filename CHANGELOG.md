@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.8
+- Works with Mod Menu (F11): change this mod's settings in game. No gameplay change.
+- Same version number as on Girthy Mods.
+
 ## 1.3.7
 - Laser sights: a fitted laser attached to the bolt guns but its beam stayed dark. After the game draws the laser,
   the plugin now checks it and, if the beam is still hidden on a bolt gun, casts it itself (stops at walls and
