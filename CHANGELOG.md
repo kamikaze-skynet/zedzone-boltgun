@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.4
+- Bigger casing: it fills its inventory slot and picture, and is about two thirds larger on the ground.
+
 ## 1.4.3
 - The casing is now the whole round with the nose cone cut off (2x1 in the inventory), drawn at the same scale as the round.
 
