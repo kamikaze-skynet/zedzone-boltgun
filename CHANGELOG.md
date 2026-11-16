@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.12
+- Bolt Pistol Magazine redrawn upright: tall steel box with four vertical ribs, like the printed reference.
+
 ## 1.4.11
 - New Bolt Pistol Magazine art: our own pixel-art steel box magazine with stacked ribs and a bolt in the feed lips.
 
