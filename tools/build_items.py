@@ -20,6 +20,8 @@ NAMES = {
     "shell75":    (".75 Bolt", "Self-propelled .75 explosive round. Propellant base, solid-fuel rocket motor, hardened armour-piercing tip and a mass-reactive "
                    "fuse that only arms after a short flight and detonates the charge once the bolt has buried itself in something dense. "
                    "Not every bolt is perfect: a few fuses fail, and a bolt that strikes at too shallow an angle skips off without going off."),
+    "casing75":   (".75 Bolt Casing", "The spent base of a .75 bolt: the heavy case that held the propellant charge. The guns throw one out with every shot; "
+                   "pick them up, because every new bolt is built in one. Pressed from iron, twenty to an ingot."),
     "rifle_mag":  ("Boltgun Magazine (30)", "Curved box magazine holding 30 .75 bolts. Its spring is stiff enough to take a finger off, and the rounds inside are prayed over before loading."),
     "pistol_mag": ("Bolt Pistol Magazine (10)", "Box magazine holding 10 .75 bolts. Heavy for its size: each round is a rocket in its own right."),
 }
@@ -31,9 +33,10 @@ GUID = {
     "shell75":    "cfe0eb6a-4ba6-46f6-b7fc-0476d0a6cd2e",
     "rifle_mag":  "8c0b9189-f401-48b1-8273-18bf8ed4f4ad",
     "pistol_mag": "a9462c6d-1c5f-4cfe-b1d7-87bf808df939",
+    "casing75":   "8e0620cc-b474-4613-82ec-49622b502ecf",
 }
 # Requested runtime ids; the game's mod loader remaps them if they clash.
-RID = {"shell75": 751075, "rifle_mag": 751076, "pistol_mag": 751077, "rifle": 751078, "pistol": 751079}
+RID = {"shell75": 751075, "rifle_mag": 751076, "pistol_mag": 751077, "rifle": 751078, "pistol": 751079, "casing75": 751080}
 
 def base(key, mod_type, ppu, regions, size, rarity, weight, price, stack, craft, platform, out_n, repair, spawn=True, hidden=False):
     name, desc = NAMES[key]
@@ -50,15 +53,18 @@ def base(key, mod_type, ppu, regions, size, rarity, weight, price, stack, craft,
         "repairRecipeItems": [{"itemId": i, "itemNumber": float(n)} for i, n in repair],
     }
 
-# The game's casing items are other calibres (1005 is a .300 Magnum shell), so the guns eject none;
-# the plugin draws its own .75 casing instead.
-SHELL_CASING = -1
+# The guns eject our own .75 casing item (the game's are other calibres; 1005 is a .300 Magnum shell).
+# Spent casings land on the ground and can be picked up; new bolts are crafted in them.
+SHELL_CASING = RID["casing75"]
+# Casing recipe: 1 iron makes 20. The game's iron item id isn't known offline, so the plugin finds
+# the item named "Iron" when the game loads and puts it in this recipe (see src/Casings.cs).
+IRON_PLACEHOLDER = 9
 
 def weapon_common():
     return {
         "feedingType": 0, "exinjectShellMode": 0, "isMechWeapon": False, "isFlareGun": False,
         "hp": 1500.0, "smokeParticleNumber": 30, "temperaturePerShot": 2.0, "ammoPlusOne": False,
-        "ammoId": RID["shell75"], "shellId": SHELL_CASING, "shellExinjectionForceFloat": 0.0,
+        "ammoId": RID["shell75"], "shellId": SHELL_CASING, "shellExinjectionForceFloat": 1.6,
         "liquidAmmoItemID": -1, "extraLiquidAmmoItemIDAry": [], "liquidCapacity": 0.0, "batteryEnergyPerSec": 0.0,
         "isAirPowerd": False, "airPressure_redZoneSize": 0.0, "airPressure_yellowZoneSize": 0.0,
         "airPressure_greenZoneSize": 0.0, "airPressure_chargeZoneSize": 0.0, "movingPartRange": 0.0,
@@ -119,8 +125,14 @@ def pistol():
 
 def shell():
     d = base("shell75", "Ammo", 2500, [("Main", (12, 7, 223, 91))], (2, 1), 0.75, 0.1, 60.0, 40,
-             [(7, 10), (9, 5), (75, 5)], 3, 20, [(56, 1)])
+             [(7, 10), (9, 5), (75, 5), (RID["casing75"], 20)], 3, 20, [(56, 1)])
     d.update({"ammoNumber": 5, "ammoBaseDamage": 2000.0})
+    return d
+
+def casing():
+    d = base("casing75", "Ammo", 1500, [("Main", (15, 4, 97, 120))], (1, 1), 0.5, 0.01, 2.0, 200,
+             [(IRON_PLACEHOLDER, 1)], 3, 20, [(56, 1)], spawn=False)
+    d.update({"ammoNumber": 1, "ammoBaseDamage": 0.0})
     return d
 
 def mag(key, ppu, region, size, capacity, size_float, fit, off):
@@ -134,6 +146,7 @@ BUILD = {
     ("RangedWeapons", "rifle"): rifle,
     ("RangedWeapons", "pistol"): pistol,
     ("Ammo", "shell75"): shell,
+    ("Ammo", "casing75"): casing,
     ("Magazine", "rifle_mag"): lambda: mag("rifle_mag", 400, (96, 7, 67, 132), (2, 4), 30, 1.2000000476837158, 1, (0.012888908386230469, -0.12591969966888428)),
     ("Magazine", "pistol_mag"): lambda: mag("pistol_mag", 1000, (23, 14, 211, 231), (2, 3), 10, 1.0, 0, (0.005671977996826172, -0.09917294979095459)),
 }

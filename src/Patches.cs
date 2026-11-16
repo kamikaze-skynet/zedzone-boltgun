@@ -47,6 +47,7 @@ namespace Boltgun
         {
             try { Bundled.LoadMissing(); } catch (Exception e) { PLog.Error("Loading bundled items failed", e); }
             try { Mags.Check(); } catch (Exception e) { PLog.Error("Magazine check failed", e); }
+            try { Casings.Check(); } catch (Exception e) { PLog.Error("Casing check failed", e); }
             try { Parts.Check(); } catch (Exception e) { PLog.Error("Attachment check failed", e); }
         }
 

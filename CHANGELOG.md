@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.0
+- New item: .75 Bolt Casing (art cut from the new round). The Boltgun and Bolt Pistol eject one per shot like the game's
+  own guns; it lands on the ground and can be picked up.
+- Crafting: 1 iron presses 20 casings, and the .75 Bolt recipe now also needs 20 casings (for 20 bolts).
+  The plugin finds the game's iron item by name when the game loads; if it picks the wrong one, set
+  General / IronItemId in the config. The Boltgun.log "Casings:" line says which item it used.
+- The plugin's drawn casings now only show for other players' shots.
+
 ## 1.3.9
 - New .75 Bolt round art (inventory sprite and preview) and a new Workshop preview image.
 

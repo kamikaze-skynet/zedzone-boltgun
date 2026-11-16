@@ -15,7 +15,7 @@ namespace Boltgun
         static readonly string[] MagGuids = { "8c0b9189-f401-48b1-8273-18bf8ed4f4ad", "a9462c6d-1c5f-4cfe-b1d7-87bf808df939" };
         static readonly string[] GunGuids = { "f5fc9e37-40ad-46b3-ad71-6be84c155ae4", "bac356ff-83fd-47f1-a864-1a33e3c7ba5c" };
 
-        static int IdOf(string guid)
+        internal static int IdOf(string guid)
         {
             try
             {

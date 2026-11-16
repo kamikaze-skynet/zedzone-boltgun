@@ -23,6 +23,12 @@
             "relativePath": "Ammo/cfe0eb6a-4ba6-46f6-b7fc-0476d0a6cd2e.zedmod"
         },
         {
+            "modGuid": "8e0620cc-b474-4613-82ec-49622b502ecf",
+            "modType": "Ammo",
+            "itemName": ".75 Bolt Casing",
+            "relativePath": "Ammo/8e0620cc-b474-4613-82ec-49622b502ecf.zedmod"
+        },
+        {
             "modGuid": "8c0b9189-f401-48b1-8273-18bf8ed4f4ad",
             "modType": "Magazine",
             "itemName": "Boltgun Magazine (30)",

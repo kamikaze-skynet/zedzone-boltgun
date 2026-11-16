@@ -31,6 +31,7 @@ namespace Boltgun
         internal static ConfigEntry<bool> VerboseLog;
         internal static ConfigEntry<bool> Attachments;
         internal static ConfigEntry<bool> LaserFix;
+        internal static ConfigEntry<int> IronItemId;
 
         static AcceptableValueRange<float> R(float a, float b) => new AcceptableValueRange<float>(a, b);
 
@@ -38,6 +39,7 @@ namespace Boltgun
         {
             Attachments = c.Bind("General", "Attachments", true, "Let sights and laser sights go on the Boltgun and Bolt Pistol (adds the .75 Bolt to their calibre lists).");
             LaserFix = c.Bind("General", "LaserFix", true, "If a fitted laser sight stays dark on a bolt gun, draw its beam anyway.");
+            IronItemId = c.Bind("General", "IronItemId", 0, "Item id of the iron used to press .75 casings (1 iron = 20). 0 = find the item named Iron automatically.");
             Enabled = c.Bind("General", "Enabled", true, "Turn the rocket-bolt behaviour on or off (the items stay).");
             WeaponModGuids = c.Bind("General", "WeaponModGuids",
                 "f5fc9e37-40ad-46b3-ad71-6be84c155ae4,bac356ff-83fd-47f1-a864-1a33e3c7ba5c",
@@ -87,7 +89,7 @@ namespace Boltgun
             Knockdown = c.Bind("Wounds", "Knockdown", true, "A target that survives the internal charge is knocked off its feet.");
             KnockdownTime = c.Bind("Wounds", "KnockdownTime", 1.5f, new ConfigDescription("Seconds the survivor stays down.", R(0.1f, 10)));
 
-            Casings = c.Bind("Visuals", "SpentCasings", true, "Throw a fat brass .75 casing out of the gun on every shot (visual only, nothing to pick up).");
+            Casings = c.Bind("Visuals", "SpentCasings", true, "Draw a .75 casing for other players' shots. Your own shots drop real casings you can pick up.");
             CasingLength = c.Bind("Visuals", "CasingLength", 0.16f, new ConfigDescription("Length (m) the casing is drawn at.", R(0.02f, 1)));
             CasingLifetime = c.Bind("Visuals", "CasingLifetime", 4f, new ConfigDescription("Seconds a casing lies on the ground before it fades.", R(0.5f, 60)));
             EjectionPortBack = c.Bind("Visuals", "EjectionPortBack", 0.45f, new ConfigDescription("How far (m) behind the muzzle the casing comes out.", R(0, 2)));

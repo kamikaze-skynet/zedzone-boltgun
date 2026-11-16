@@ -86,7 +86,9 @@ namespace Boltgun
             b.penetrateTime = 0;        // bolts stop inside what they hit
             b.m_penetrateCounter = 0;
             try { state.Body = Fx.BoltBody(b); } catch (Exception e) { PLog.Debug("Bolt sprite: " + e.Message); }
-            try
+            // Our own shots eject a real casing item through the game (weapon shellId); draw one only
+            // for other players' shots, or if the casing item failed to load.
+            if (remote || Casings.CasingId <= 0) try
             {
                 Vector3 r = b.transform.right; var aim = new Vector2(r.x, r.y);
                 Fx.Casing(state.Muzzle - r * Settings.EjectionPortBack.Value, aim);
