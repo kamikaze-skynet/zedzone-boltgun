@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.11
+- New Bolt Pistol Magazine art: our own pixel-art steel box magazine with stacked ribs and a bolt in the feed lips.
+
 ## 1.4.10
 - Bolt Pistol recoil 0.8.
 
