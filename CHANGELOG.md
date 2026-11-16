@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.9
+- New .75 Bolt round art (inventory sprite and preview) and a new Workshop preview image.
+
 ## 1.3.8
 - Works with Mod Menu (F11): change this mod's settings in game. No gameplay change.
 - Same version number as on Girthy Mods.
