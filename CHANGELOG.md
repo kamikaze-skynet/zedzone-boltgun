@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.17
+- Bolt Pistol: the magazine well under the gun is taller and covers the top of the magazine.
+- Bolt Pistol Magazine: wider, with wider ribs, sitting slightly further back.
+
 ## 1.4.16
 - Bolt Pistol Magazine: the bolt showing at the top is as wide as the magazine.
 
