@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.16
+- Bolt Pistol Magazine: the bolt showing at the top is as wide as the magazine.
+
 ## 1.4.15
 - Bolt Pistol Magazine: the top lip is as wide as the body.
 
