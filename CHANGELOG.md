@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.14
+- Bolt Pistol Magazine: all four ribs are the same height.
+
 ## 1.4.13
 - Shorter Bolt Pistol Magazine (now 2x2 in the inventory).
 
