@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.20
+- Bolt Pistol Magazine: Y offset 0.003 (lined up in the game's item editor) so it sits in the gun.
+
 ## 1.4.19
 - Bolt Pistol Magazine: back to full length, and moved up so it sits in the gun instead of floating below it.
 
