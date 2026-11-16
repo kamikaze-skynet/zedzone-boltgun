@@ -35,7 +35,7 @@ namespace Boltgun
             var round = im.GetItemAttrById(Mags.AmmoId());
             if (round != null) Remap(round, RequestedCasingId, casing, sb, "round");
 
-            // The casing's recipe: 1 iron -> 20 casings.
+            // The casing's recipe: 5 Iron Plates -> 20 casings.
             int iron = Settings.IronItemId.Value > 0 ? Settings.IronItemId.Value
                       : im.GetItemAttrById(IronPlate) != null ? IronPlate : FindIron(im);
             var cAttr = im.GetItemAttrById(casing);
