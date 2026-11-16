@@ -2,6 +2,7 @@
 
 ## 1.4.6
 - The .75 Bolt recipe no longer needs Copper Plate (item 9); the reusable casing takes its place.
+- Casings cost more: 5 Iron Plates make 20 casings (was 1).
 
 ## 1.4.5
 - The casing now ends right after the first taper (the "Bolter Round" ring); the window band and nose are gone.
