@@ -7,7 +7,7 @@ namespace Boltgun
     // Spent .75 casings are a real item: the guns eject one per shot (the game's own shell ejection,
     // weapon shellId), they can be picked up, and new bolts are crafted in them. Iron presses into
     // casings, 20 to one. After the mod loader runs this points the guns and recipes at the casing's
-    // runtime id and finds the game's iron item by name for the casing recipe.
+    // runtime id and finds the game's Iron Plate item by name for the casing recipe.
     internal static class Casings
     {
         const string CasingGuid = "8e0620cc-b474-4613-82ec-49622b502ecf";
@@ -72,8 +72,8 @@ namespace Boltgun
             try { return a.ItemName ?? ""; } catch { return ""; }
         }
 
-        // The game's iron: an item named exactly "Iron", else the shortest name that starts with "Iron"
-        // (e.g. "Iron Ingot"), preferring crafting materials.
+        // The game's iron: the item named "Iron Plate", else one named exactly "Iron", else the shortest
+        // name that starts with "Iron", preferring crafting materials.
         static int FindIron(ItemManager im)
         {
             var list = im.itemList;
@@ -91,7 +91,8 @@ namespace Boltgun
                 if (!l.Contains("iron")) continue;
                 if (Settings.VerboseLog.Value) seen.Add($"{a.itemId}={n}");
                 int score;
-                if (l == "iron") score = 0;
+                if (l == "iron plate") score = -1;
+                else if (l == "iron") score = 0;
                 else if (l.StartsWith("iron ") && (l.Contains("ingot") || l.Contains("bar") || l.Contains("plate"))) score = 10 + l.Length;
                 else if (l.StartsWith("iron")) score = 100 + l.Length;
                 else continue;

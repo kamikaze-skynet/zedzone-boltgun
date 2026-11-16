@@ -21,7 +21,7 @@ NAMES = {
                    "fuse that only arms after a short flight and detonates the charge once the bolt has buried itself in something dense. "
                    "Not every bolt is perfect: a few fuses fail, and a bolt that strikes at too shallow an angle skips off without going off."),
     "casing75":   (".75 Bolt Casing", "The spent base of a .75 bolt: the heavy case that held the propellant charge. The guns throw one out with every shot; "
-                   "pick them up, because every new bolt is built in one. Pressed from iron, twenty to an ingot."),
+                   "pick them up, because every new bolt is built in one. Pressed from iron plate, twenty to a plate."),
     "rifle_mag":  ("Boltgun Magazine (30)", "Curved box magazine holding 30 .75 bolts. Its spring is stiff enough to take a finger off, and the rounds inside are prayed over before loading."),
     "pistol_mag": ("Bolt Pistol Magazine (10)", "Box magazine holding 10 .75 bolts. Heavy for its size: each round is a rocket in its own right."),
 }
@@ -56,8 +56,8 @@ def base(key, mod_type, ppu, regions, size, rarity, weight, price, stack, craft,
 # The guns eject our own .75 casing item (the game's are other calibres; 1005 is a .300 Magnum shell).
 # Spent casings land on the ground and can be picked up; new bolts are crafted in them.
 SHELL_CASING = RID["casing75"]
-# Casing recipe: 1 iron makes 20. The game's iron item id isn't known offline, so the plugin finds
-# the item named "Iron" when the game loads and puts it in this recipe (see src/Casings.cs).
+# Casing recipe: 1 Iron Plate makes 20. The game's iron item id isn't known offline, so the plugin finds
+# the item named "Iron Plate" when the game loads and puts it in this recipe (see src/Casings.cs).
 IRON_PLACEHOLDER = 9
 
 def weapon_common():

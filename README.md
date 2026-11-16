@@ -9,7 +9,7 @@ explosive round. The item art is a placeholder until we have our own (see `ART.m
 | Boltgun | full auto (600 rounds a minute), 30-round magazine, 40 m range |
 | Bolt Pistol | semi auto, one-handed, 10-round magazine, 30 m range |
 | .75 Bolt | ammo, stacks to 40, craftable |
-| .75 Bolt Casing | dropped by every shot, pick it up; 1 iron = 20; each bolt needs one |
+| .75 Bolt Casing | dropped by every shot, pick it up; 1 Iron Plate = 20; each bolt needs one |
 | Boltgun Magazine (30), Bolt Pistol Magazine (10) | craftable |
 
 The guns spawn rarely in rooms and can be crafted. Both take sights and laser sights in the sight slot.

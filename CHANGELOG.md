@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.1
+- The casing recipe uses Iron Plate: 1 Iron Plate makes 20 .75 Bolt Casings.
+
 ## 1.4.0
 - New item: .75 Bolt Casing (art cut from the new round). The Boltgun and Bolt Pistol eject one per shot like the game's
   own guns; it lands on the ground and can be picked up.
