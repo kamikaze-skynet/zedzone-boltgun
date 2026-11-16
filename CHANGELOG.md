@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.13
+- Shorter Bolt Pistol Magazine (now 2x2 in the inventory).
+
 ## 1.4.12
 - Bolt Pistol Magazine redrawn upright: tall steel box with four vertical ribs, like the printed reference.
 
