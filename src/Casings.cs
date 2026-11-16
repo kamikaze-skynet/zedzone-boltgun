@@ -12,7 +12,7 @@ namespace Boltgun
     {
         const string CasingGuid = "8e0620cc-b474-4613-82ec-49622b502ecf";
         const int RequestedCasingId = 751080;
-        const int IronPlaceholder = 9;
+        const int IronPlate = 8;   // the game's Iron Plate, already in the casing recipe
         internal static int CasingId { get; private set; } = -1;
 
         internal static void Check()
@@ -36,11 +36,12 @@ namespace Boltgun
             if (round != null) Remap(round, RequestedCasingId, casing, sb, "round");
 
             // The casing's recipe: 1 iron -> 20 casings.
-            int iron = Settings.IronItemId.Value > 0 ? Settings.IronItemId.Value : FindIron(im);
+            int iron = Settings.IronItemId.Value > 0 ? Settings.IronItemId.Value
+                      : im.GetItemAttrById(IronPlate) != null ? IronPlate : FindIron(im);
             var cAttr = im.GetItemAttrById(casing);
             if (iron > 0 && cAttr != null)
             {
-                Remap(cAttr, IronPlaceholder, iron, sb, "casing recipe iron");
+                Remap(cAttr, IronPlate, iron, sb, "casing recipe iron");
                 sb.Append($" | iron = {iron} ({Name(im.GetItemAttrById(iron))})");
             }
             else sb.Append(" | iron item not found: set General / IronItemId in the config (VerboseLog lists candidates)");

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.2
+- The casing recipe uses the game's Iron Plate directly (item 8) instead of looking it up by name.
+
 ## 1.4.1
 - The casing recipe uses Iron Plate: 1 Iron Plate makes 20 .75 Bolt Casings.
 

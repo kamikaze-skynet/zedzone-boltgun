@@ -56,9 +56,8 @@ def base(key, mod_type, ppu, regions, size, rarity, weight, price, stack, craft,
 # The guns eject our own .75 casing item (the game's are other calibres; 1005 is a .300 Magnum shell).
 # Spent casings land on the ground and can be picked up; new bolts are crafted in them.
 SHELL_CASING = RID["casing75"]
-# Casing recipe: 1 Iron Plate makes 20. The game's iron item id isn't known offline, so the plugin finds
-# the item named "Iron Plate" when the game loads and puts it in this recipe (see src/Casings.cs).
-IRON_PLACEHOLDER = 9
+# Casing recipe: 1 Iron Plate (game item 8) makes 20.
+IRON_PLATE = 8
 
 def weapon_common():
     return {
@@ -131,7 +130,7 @@ def shell():
 
 def casing():
     d = base("casing75", "Ammo", 1500, [("Main", (15, 4, 97, 120))], (1, 1), 0.5, 0.01, 2.0, 200,
-             [(IRON_PLACEHOLDER, 1)], 3, 20, [(56, 1)], spawn=False)
+             [(IRON_PLATE, 1)], 3, 20, [(56, 1)], spawn=False)
     d.update({"ammoNumber": 1, "ammoBaseDamage": 0.0})
     return d
 
