@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.3
+- The casing is now the whole round with the nose cone cut off (2x1 in the inventory), drawn at the same scale as the round.
+
 ## 1.4.2
 - The casing recipe uses the game's Iron Plate directly (item 8) instead of looking it up by name.
 
