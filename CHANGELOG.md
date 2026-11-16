@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.7
+- Bolt Pistol repainted to match the Boltgun: blue housing, silver frame, black grip.
+
 ## 1.4.6
 - The .75 Bolt recipe no longer needs Copper Plate (item 9); the reusable casing takes its place.
 - Casings cost more: 5 Iron Plates make 20 casings (was 1).
