@@ -81,7 +81,8 @@ namespace Boltgun
             if (remote) state.Jitter = 1f;
 
             b.bulletSpeed = SpeedAt(0f) * state.Jitter;
-            if (Settings.KineticDamage.Value > 0f) b.bulletDamage = Settings.KineticDamage.Value;
+            float kinetic = id == Mags.PistolId() ? Settings.PistolKineticDamage.Value : Settings.KineticDamage.Value;
+            if (kinetic > 0f) b.bulletDamage = kinetic;
             if (Settings.MinRange.Value > 0f && b.bulletRange < Settings.MinRange.Value) b.bulletRange = Settings.MinRange.Value;
             b.penetrateTime = 0;        // bolts stop inside what they hit
             b.m_penetrateCounter = 0;

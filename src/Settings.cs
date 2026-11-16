@@ -10,7 +10,7 @@ namespace Boltgun
         internal static ConfigEntry<string> ExtraWeaponIds;
 
         internal static ConfigEntry<float> LaunchSpeed, IgnitionDelay, BurnTime, FinalSpeed, MinRange;
-        internal static ConfigEntry<float> KineticDamage;
+        internal static ConfigEntry<float> KineticDamage, PistolKineticDamage;
         internal static ConfigEntry<int> ArmorPenetration;
         internal static ConfigEntry<float> ArmingDistance, FuseDelay, InternalDamage, BlastDamage, BlastRadius, BlastVisualScale;
         internal static ConfigEntry<bool> DetonateOnSurfaces;
@@ -55,6 +55,7 @@ namespace Boltgun
             MinRange = c.Bind("Flight", "MinRange", 0f, new ConfigDescription("If above 0, bolts fly at least this far (m). 0 keeps the weapon's range.", R(0, 500)));
 
             KineticDamage = c.Bind("Impact", "KineticDamage", 2000f, new ConfigDescription("Damage of the impact itself (about a 20 mm autocannon hit). 0 keeps the weapon's damage.", R(0, 20000)));
+            PistolKineticDamage = c.Bind("Impact", "PistolKineticDamage", 1300f, new ConfigDescription("Impact damage of bolts fired from the Bolt Pistol. 0 keeps the weapon's damage.", R(0, 20000)));
             ArmorPenetration = c.Bind("Impact", "ArmorPenetration", 8, new ConfigDescription("Armour-piercing level of the hardened tip (game scale, 8 = top tier).", new AcceptableValueRange<int>(0, 8)));
 
             ArmingDistance = c.Bind("Detonation", "ArmingDistance", 2f, new ConfigDescription("The fuse arms after the bolt has flown this far (m). Closer hits are kinetic only, so you can't blow yourself up point-blank.", R(0, 50)));

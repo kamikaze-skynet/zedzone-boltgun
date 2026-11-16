@@ -28,6 +28,9 @@ namespace Boltgun
 
         internal static int AmmoId() => IdOf(AmmoGuid);
 
+        static int _pistol = -1;
+        internal static int PistolId() { if (_pistol <= 0) _pistol = IdOf(GunGuids[1]); return _pistol; }
+
         internal static IEnumerable<int> GunIds()
         {
             foreach (var g in GunGuids) { int id = IdOf(g); if (id > 0) yield return id; }

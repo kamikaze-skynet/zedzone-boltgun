@@ -108,9 +108,9 @@ def pistol():
     d.update(weapon_common())
     d.update({
         "weaponType": 1, "weaponSlotSize": 0, "gunActionType": 1, "singleHand": True,
-        "moveSpeedFloat": 1.0, "damage": 2000.0, "fireRange": 30.0, "noiseRange": 60.0,
+        "moveSpeedFloat": 1.0, "damage": 1300.0, "fireRange": 30.0, "noiseRange": 60.0,
         "bulletForce": 1400.0, "bulletSpeed": 300.0, "fireAngle": 2.5, "bulletNumber": 1,
-        "fireInterval": 0.2, "recoilIntensity": 1.0, "reloadTime": 2.6,
+        "fireInterval": 0.2, "recoilIntensity": 1.3, "reloadTime": 2.6,
         "defaultMagazineId": RID["pistol_mag"], "magazineSize": 10,
         "weaponHandHeightOffset": 0.1802505999803543, "weaponHandOffsetRange": 0.7120091915130615,
         "leftHandOffsetRange": 0.20000000298023225, "leftHandHeightOffset": 0.029999999329447748,
