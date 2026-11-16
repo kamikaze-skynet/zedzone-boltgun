@@ -4,7 +4,9 @@
 #   .\publish-workshop.ps1 -SteamUser <login> -Visibility Public  make it public
 #   .\publish-workshop.ps1 -SteamUser <login> -ChangeNote "Fixed X"
 #
-# SteamCMD asks for your password / Steam Guard code itself. This script never sees or saves them.
+# Uses the login SteamCMD remembers. First time (or after "Access Denied"), sign SteamCMD in once:
+#   .\tools\steamcmd\steamcmd.exe +login <login> +quit     (it asks for password + Steam Guard itself)
+# This script never sees or saves your password.
 # The first upload writes the new item id to workshop\publishedfileid.txt; commit that file so
 # later runs update the same item instead of creating a new one.
 param(
@@ -89,11 +91,22 @@ $Vdf = Join-Path $Dist "workshop_item.vdf"
 # ---- 4. upload
 if ($isNew) { Write-Host "==> Creating a new Workshop item ($Visibility)" -ForegroundColor Cyan }
 else        { Write-Host "==> Updating Workshop item $Id" -ForegroundColor Cyan }
-& $SteamCmd +login $SteamUser +workshop_build_item $Vdf +quit
+# Uses the login SteamCMD has saved. If it has none (or Steam rejected it), SteamCMD stops instead of
+# prompting and we print the one-time login command below. Every line is echoed and checked, because
+# SteamCMD can report a failed login or upload and still exit with 0.
+$failed = $false
+$ErrorActionPreference = "Continue"   # SteamCMD stderr lines must not stop the script
+& $SteamCmd "+@NoPromptForPassword" 1 "+@ShutdownOnFailedCommand" 1 +login $SteamUser +workshop_build_item $Vdf +quit 2>&1 | ForEach-Object {
+    $line = "$_"
+    Write-Host $line
+    if ($line -cmatch 'ERROR|FAILED|Access Denied|Login Failure|Invalid Password|Two-factor|Steam Guard|Not logged on') { $failed = $true }
+}
+if ($LASTEXITCODE -ne 0) { $failed = $true }
+$ErrorActionPreference = "Stop"
 
 # SteamCMD writes the item id back into the VDF after a successful upload.
 $after = Get-Content $Vdf -Raw
-if ($after -match '"publishedfileid"\s+"(\d+)"' -and $Matches[1] -ne "0") {
+if (-not $failed -and $after -match '"publishedfileid"\s+"(\d+)"' -and $Matches[1] -ne "0") {
     $newId = $Matches[1]
     if ($isNew) {
         Set-Content -Path $IdFile -Value $newId -Encoding ASCII
@@ -103,7 +116,10 @@ if ($after -match '"publishedfileid"\s+"(\d+)"' -and $Matches[1] -ne "0") {
     Write-Host " Done: https://steamcommunity.com/sharedfiles/filedetails/?id=$newId" -ForegroundColor Green
 } else {
     Write-Host ""
-    Write-Host " Upload did not finish - read the SteamCMD output above." -ForegroundColor Red
-    Write-Host " (First time: accept the Workshop agreement on the Steam website if it asks.)" -ForegroundColor Red
+    Write-Host " Upload FAILED - the Workshop item was not updated. Read the SteamCMD output above." -ForegroundColor Red
+    Write-Host " If it says Access Denied, Login Failure or asks for Steam Guard, sign SteamCMD in once (it asks" -ForegroundColor Red
+    Write-Host " for your password and Steam Guard code and remembers you), then run this script again:" -ForegroundColor Red
+    Write-Host "     & `"$SteamCmd`" +login $SteamUser +quit" -ForegroundColor Yellow
+    Write-Host " (First upload: accept the Workshop agreement on the Steam website if it asks.)" -ForegroundColor Red
     exit 1
 }
