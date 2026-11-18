@@ -14,6 +14,11 @@ explosive round. The item art is a placeholder until we have our own (see `ART.m
 
 The guns spawn rarely in rooms and can be crafted. Both take sights and laser sights in the sight slot.
 
+## Requires
+
+- ZED ZONE (Windows, Steam)
+- [ZED ZONE Code Mod Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=3834614258) - run its install.cmd once, then start the game through Steam.
+
 ## What a bolt does
 
 1. **Launch.** A propellant charge pushes the bolt out of the barrel at `LaunchSpeed` (300 m/s).
